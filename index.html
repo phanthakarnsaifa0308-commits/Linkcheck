@@ -32,23 +32,24 @@
         /* สไตล์ช่องแก้จำนวนในตาราง */
         .inline-qty {
             width: 70px;
-            padding: 5px;
+            padding: 8px 5px;
             border: 1.5px solid var(--primary-light);
             border-radius: 8px;
             text-align: center;
             font-weight: bold;
             color: var(--primary-color);
             background: var(--accent-purple);
+            outline: none;
         }
 
         .link-text { word-break: break-all; color: #4A5568; display: block; font-size: 12px; margin-bottom: 5px; }
         .btn-check { background-color: #FFF; color: var(--primary-color); padding: 7px 14px; border-radius: 10px; font-size: 11px; border: 1.5px solid var(--primary-light); cursor: pointer; margin-top: 8px; }
 
         .config-card { display: flex; gap: 12px; margin-top: 25px; background: #FDFBFF; padding: 18px; border-radius: 20px; border: 1px solid #F0EAFB; }
-        .config-card input { width: 100%; padding: 10px; border: 1.5px solid #EEE9F5; border-radius: 12px; text-align: center; font-weight: bold; }
+        .config-card input { width: 100%; padding: 10px; border: 1.5px solid #EEE9F5; border-radius: 12px; text-align: center; font-weight: bold; outline: none; }
 
         #finalResult { margin-top: 25px; display: none; border-top: 2px dashed #EEE9F5; padding-top: 20px; }
-        .result-area { background: #FAFAFF !important; border: 2px solid #E0D7FF !important; color: #4834D4 !important; font-weight: 600; }
+        .result-area { background: #FAFAFF !important; border: 2px solid #E0D7FF !important; color: #4834D4 !important; font-weight: 600; width: 100%; box-sizing: border-box; }
     </style>
 </head>
 <body>
@@ -57,16 +58,17 @@
     <h2>Mass order by Ptk Saifa🌟</h2>
     
     <label style="font-weight:600; color:#4834D4;">🔮 วางลิงก์ที่นี่</label>
-    <textarea id="inputLinks" rows="5" placeholder="วางลิงก์ได้เลย..."></textarea>
+    <textarea id="inputLinks" rows="5" placeholder="วางลิงก์ได้เลยระบบจะเว้นบรรทัดให้อัตโนมัติ..."></textarea>
 
-    <button class="btn btn-blue" onclick="generateTable()" style="margin-top:15px;">✨ สร้างรายการเช็คคลิป</button>
+    <button class="btn btn-blue" onclick="generateTable()" style="margin-top:15px;">✨ สร้างรายการ Mass order</button>
 
     <div class="table-container">
         <table>
             <thead>
                 <tr>
-                    <th style="width: 20%;">ไอดี</th>
-                    <th>ลิงก์และจำนวน (แก้ไขได้)</th>
+                    <th style="width: 15%;">ไอดี</th>
+                    <th>ลิงก์ / เช็คคลิป</th>
+                    <th style="width: 25%; text-align: center;">จำนวน (แก้ไขได้)</th>
                 </tr>
             </thead>
             <tbody id="tableBody"></tbody>
@@ -81,7 +83,7 @@
     <button class="btn btn-green" onclick="generateMassOrder()">🪄 สร้าง Mass Order เลย!! </button>
 
     <div id="finalResult">
-        <label>✅ ผลลัพธ์สุดท้าย:</label>
+        <label>✅ รายการ Mass order:</label>
         <textarea id="outputArea" rows="6" readonly class="result-area"></textarea>
         <button class="btn btn-blue" style="margin-top:12px;" onclick="copyToClipboard()">📋 คัดลอกทั้งหมด</button>
     </div>
@@ -109,10 +111,10 @@
                 <td style="font-weight:bold; color:#6C5CE7;">${sid}</td>
                 <td>
                     <span class="link-text">${link}</span>
-                    <small>จำนวน: </small>
-                    <input type="number" class="inline-qty" value="${qty}" id="qty_${index}">
-                    <br>
                     <button class="btn-check" onclick="window.open('${link}', '_blank'); this.style.background='#6C5CE7'; this.style.color='#fff';">👁️ เช็คคลิป</button>
+                </td>
+                <td style="text-align: center;">
+                    <input type="number" class="inline-qty" value="${qty}" id="qty_${index}">
                 </td>
             `;
             tbody.appendChild(row);
@@ -125,7 +127,6 @@
         if (links.length === 0) return alert('ใส่ลิงก์ก่อนนะ!');
 
         const result = links.map((l, i) => {
-            // ดึงค่าจำนวนจากช่องในตาราง (ถ้าคนใช้ไปแอบแก้เลข)
             const currentQty = document.getElementById(`qty_${i}`).value;
             return `${sid}|${l}|${currentQty}`;
         }).join('\n');
