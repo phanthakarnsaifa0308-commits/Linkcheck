@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mass Order Helper Pro</title>
+    <style>
+        body { font-family: -apple-system, sans-serif; background-color: #f0f2f5; padding: 10px; margin: 0; }
+        .container { background: #fff; max-width: 500px; margin: 0 auto; padding: 20px; border-radius: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h2 { font-size: 1.1rem; text-align: center; color: #333; }
+        textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 14px; margin-bottom: 10px; }
+        .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; margin-bottom: 10px; transition: 0.2s; }
+        .btn-blue { background-color: #007bff; color: white; }
+        .btn-green { background-color: #28a745; color: white; }
+        .btn-copy { background-color: #17a2b8; color: white; margin-top: 5px; }
+        .table-wrapper { overflow-x: auto; margin: 15px 0; border-radius: 8px; border: 1px solid #eee; }
+        table { width: 100%; border-collapse: collapse; min-width: 450px; font-size: 13px; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #eee; }
+        .btn-view { padding: 4px 8px; background: #6c757d; color: white; text-decoration: none; border-radius: 4px; font-size: 11px; }
+        #result-section { margin-top: 20px; padding: 15px; border-top: 2px dashed #ddd; display: none; }
+        .copy-success { color: #28a745; font-size: 12px; font-weight: bold; display: none; text-align: center; margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🚀 ระบบเตรียม Mass Order</h2>
+    
+    <label style="font-size: 0.9rem; font-weight: bold;">1. วางลิงก์ TikTok</label>
+    <textarea id="linkInput" rows="4" placeholder="วางลิงก์ที่นี่..."></textarea>
+    
+    <button class="btn btn-blue" onclick="loadToTable()">➕ นำลิงก์ใส่ตาราง</button>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>ไอดี</th>
+                    <th>ลิงก์ / เช็คคลิป</th>
+                    <th>ยอดวิว</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+
+    <button class="btn btn-green" onclick="generateMassOrder()">🪄 สร้างข้อมูล Mass Order</button>
+
+    <div id="result-section">
+        <label style="font-weight: bold; font-size: 0.9rem;">✅ ผลลัพธ์:</label>
+        <textarea id="finalResult" rows="5" readonly></textarea>
+        <button class="btn btn-copy" onclick="copyToClipboard()">📋 คัดลอกข้อมูลทั้งหมด</button>
+        <div id="copyMsg" class="copy-success">คัดลอกลง Clipboard แล้ว! ✨</div>
+    </div>
+</div>
+
+<script>
+    const DEFAULT_ID = "4525";
+    const DEFAULT_QTY = "1000";
+
+    function loadToTable() {
+        const text = document.getElementById('linkInput').value;
+        const links = text.split('\n').filter(l => l.trim() !== '');
+        const tbody = document.getElementById('tableBody');
+        
+        if(links.length === 0) return alert("กรุณาใส่ลิงก์ก่อนครับ");
+
+        tbody.innerHTML = '';
+        links.forEach(link => {
+            const cleanLink = link.trim();
+            const isTiktok = cleanLink.includes('tiktok.com');
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td style="color: #007bff; font-weight: bold;">${DEFAULT_ID}</td>
+                <td style="word-break: break-all;">
+                    ${cleanLink} 
+                    <br>
+                    <a href="${cleanLink}" target="_blank" class="btn-view">${isTiktok ? '👁️ เปิดเช็คคลิป' : '⚠️ ไม่ใช่ลิงก์ TikTok'}</a>
+                </td>
+                <td><input type="number" value="${DEFAULT_QTY}" style="width: 60px; padding: 5px; border: 1px solid #ccc; border-radius: 4px;"></td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function generateMassOrder() {
+        const rows = document.querySelectorAll('#tableBody tr');
+        if(rows.length === 0) return alert("ยังไม่มีข้อมูลในตาราง");
+
+        let output = "";
+        rows.forEach(row => {
+            const id = row.cells[0].innerText;
+            const link = row.cells[1].firstChild.textContent.trim();
+            const qty = row.querySelector('input').value;
+            output += `${id}|${link}|${qty}\n`;
+        });
+
+        document.getElementById('finalResult').value = output.trim();
+        document.getElementById('result-section').style.display = 'block';
+    }
+
+    function copyToClipboard() {
+        const copyText = document.getElementById("finalResult");
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); // สำหรับมือถือ
+
+        navigator.clipboard.writeText(copyText.value).then(() => {
+            const msg = document.getElementById("copyMsg");
+            msg.style.display = "block";
+            setTimeout(() => msg.style.display = "none", 2000);
+        });
+    }
+</script>
+
+</body>
+</html>
