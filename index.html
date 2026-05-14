@@ -38,13 +38,10 @@ body{
     padding:15px;
 
     overflow-x:hidden;
-
-    transition:
-    background .35s ease,
-    color .35s ease;
 }
 
 /* Glow */
+
 .bg-glow{
     position:fixed;
 
@@ -82,7 +79,107 @@ body{
     }
 }
 
+/* Particles */
+
+.particles{
+    position:fixed;
+
+    inset:0;
+
+    overflow:hidden;
+
+    pointer-events:none;
+
+    z-index:-2;
+}
+
+.particles span{
+
+    position:absolute;
+
+    bottom:-100px;
+
+    border-radius:50%;
+
+    background:rgba(124,77,255,.18);
+
+    animation:floatParticle linear infinite;
+}
+
+.particles span:nth-child(1){
+    left:10%;
+    width:14px;
+    height:14px;
+    animation-duration:16s;
+}
+
+.particles span:nth-child(2){
+    left:25%;
+    width:9px;
+    height:9px;
+    animation-duration:12s;
+}
+
+.particles span:nth-child(3){
+    left:40%;
+    width:18px;
+    height:18px;
+    animation-duration:20s;
+}
+
+.particles span:nth-child(4){
+    left:58%;
+    width:8px;
+    height:8px;
+    animation-duration:14s;
+}
+
+.particles span:nth-child(5){
+    left:70%;
+    width:13px;
+    height:13px;
+    animation-duration:18s;
+}
+
+.particles span:nth-child(6){
+    left:85%;
+    width:10px;
+    height:10px;
+    animation-duration:15s;
+}
+
+.particles span:nth-child(7){
+    left:95%;
+    width:7px;
+    height:7px;
+    animation-duration:11s;
+}
+
+@keyframes floatParticle{
+
+    0%{
+        transform:
+        translateY(0)
+        scale(0);
+
+        opacity:0;
+    }
+
+    10%{
+        opacity:1;
+    }
+
+    100%{
+        transform:
+        translateY(-120vh)
+        scale(1);
+
+        opacity:0;
+    }
+}
+
 /* Container */
+
 .container{
     background:rgba(255,255,255,.78);
 
@@ -104,16 +201,10 @@ body{
     0 0 0 1px rgba(255,255,255,.4);
 
     animation:fadeUp .45s ease;
-
-    transition:.3s;
 }
 
 .container:hover{
     transform:translateY(-2px);
-
-    box-shadow:
-    0 18px 50px rgba(124,77,255,.16),
-    0 0 0 1px rgba(255,255,255,.45);
 }
 
 @keyframes fadeUp{
@@ -128,6 +219,7 @@ body{
 }
 
 /* Title */
+
 h2{
     text-align:center;
 
@@ -138,11 +230,10 @@ h2{
     color:var(--primary-color);
 
     font-weight:800;
-
-    letter-spacing:-.5px;
 }
 
-/* Theme Toggle */
+/* Theme */
+
 .theme-toggle{
     display:flex;
     justify-content:center;
@@ -166,12 +257,8 @@ h2{
     cursor:pointer;
 }
 
-.theme-toggle button:hover{
-    background:#7C4DFF;
-    color:white;
-}
+/* Label */
 
-/* Labels */
 .main-label{
     font-weight:700;
 
@@ -183,6 +270,7 @@ h2{
 }
 
 /* Textarea */
+
 textarea{
     width:100%;
 
@@ -225,6 +313,7 @@ textarea:focus{
 }
 
 /* Buttons */
+
 .btn{
     width:100%;
 
@@ -275,10 +364,6 @@ textarea:focus{
     transform:translateY(-2px);
 }
 
-.btn:active{
-    transform:scale(.97);
-}
-
 .btn-blue{
     margin-top:15px;
     margin-bottom:18px;
@@ -288,10 +373,6 @@ textarea:focus{
     background:linear-gradient(135deg,#7C4DFF,#B388FF);
 
     box-shadow:0 10px 25px rgba(124,77,255,.28);
-}
-
-.btn-blue:hover{
-    filter:brightness(1.05);
 }
 
 .btn-green{
@@ -305,6 +386,7 @@ textarea:focus{
 }
 
 /* Table */
+
 .table-container{
     overflow-x:auto;
 
@@ -319,42 +401,21 @@ textarea:focus{
 
 table{
     width:100%;
-
     border-collapse:collapse;
-
-    font-size:13px;
-
-    min-width:350px;
 }
 
 th{
     background:rgba(124,77,255,.08);
 
-    text-align:left;
-
     padding:14px;
 
     color:#7C4DFF;
-
-    font-weight:700;
 }
 
 td{
     padding:15px 12px;
 
     border-bottom:1px solid #F8F6FD;
-
-    vertical-align:middle;
-}
-
-tr{
-    transition:.2s;
-}
-
-tr:hover{
-    background:rgba(124,77,255,.04);
-
-    transform:scale(1.01);
 }
 
 .table-row-animate{
@@ -365,24 +426,19 @@ tr:hover{
 
     from{
         opacity:0;
-        transform:
-        translateY(12px)
-        scale(.98);
+        transform:translateY(12px);
     }
 
     to{
         opacity:1;
-        transform:
-        translateY(0)
-        scale(1);
+        transform:translateY(0);
     }
 }
 
-/* Qty */
 .inline-qty{
     width:75px;
 
-    padding:10px 6px;
+    padding:10px;
 
     border:2px solid rgba(124,77,255,.18);
 
@@ -392,37 +448,19 @@ tr:hover{
 
     font-weight:700;
 
-    color:var(--primary-color);
-
     background:#FAF7FF;
-
-    outline:none;
 }
 
-.inline-qty:focus{
-    border-color:var(--primary-color);
-
-    box-shadow:0 0 0 4px rgba(124,77,255,.12);
-
-    transform:scale(1.03);
-}
-
-/* Link */
 .link-text{
     word-break:break-all;
-
-    color:#4A5568;
-
-    display:block;
 
     font-size:12px;
 
     margin-bottom:6px;
 
-    line-height:1.5;
+    display:block;
 }
 
-/* Check Button */
 .btn-check{
     background:rgba(124,77,255,.08);
 
@@ -432,21 +470,11 @@ tr:hover{
 
     border-radius:12px;
 
-    font-size:11px;
-
-    font-weight:700;
-
     border:none;
 
     cursor:pointer;
 }
 
-.btn-check:hover{
-    background:var(--primary-color);
-    color:#fff;
-}
-
-/* Config */
 .config-card{
     display:flex;
 
@@ -459,18 +487,6 @@ tr:hover{
     padding:18px;
 
     border-radius:22px;
-
-    border:1px solid #F0EAFB;
-}
-
-.config-card small{
-    color:#7C4DFF;
-
-    font-weight:700;
-
-    display:block;
-
-    margin-bottom:6px;
 }
 
 .config-card input{
@@ -485,40 +501,6 @@ tr:hover{
     text-align:center;
 
     font-weight:700;
-
-    outline:none;
-}
-
-.config-card input:focus{
-    border-color:var(--primary-light);
-
-    transform:scale(1.03);
-}
-
-/* Result */
-#finalResult{
-    margin-top:28px;
-
-    display:none;
-
-    border-top:2px dashed #E4D9FF;
-
-    padding-top:22px;
-
-    animation:resultShow .45s ease;
-}
-
-@keyframes resultShow{
-
-    from{
-        opacity:0;
-        transform:translateY(18px);
-    }
-
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
 }
 
 .result-area{
@@ -530,111 +512,111 @@ tr:hover{
 
     font-weight:700;
 
-    width:100%;
+    animation:resultGlow 3s ease-in-out infinite;
 }
 
-/* DARK MODE */
+@keyframes resultGlow{
+
+    0%{
+        box-shadow:0 0 0 rgba(124,77,255,0);
+    }
+
+    50%{
+        box-shadow:0 0 24px rgba(124,77,255,.18);
+    }
+
+    100%{
+        box-shadow:0 0 0 rgba(124,77,255,0);
+    }
+}
+
+/* Toast */
+
+#toast{
+
+    position:fixed;
+
+    left:50%;
+    bottom:25px;
+
+    transform:
+    translateX(-50%)
+    translateY(120px);
+
+    background:rgba(25,25,35,.95);
+
+    color:white;
+
+    padding:14px 18px;
+
+    border-radius:16px;
+
+    font-weight:700;
+
+    z-index:9999;
+
+    opacity:0;
+
+    transition:.35s ease;
+}
+
+#toast.show{
+
+    opacity:1;
+
+    transform:
+    translateX(-50%)
+    translateY(0);
+}
+
+/* Counter */
+
+.link-count{
+
+    margin-top:10px;
+
+    text-align:right;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    color:#7C4DFF;
+}
+
+/* Dark */
+
 body.dark{
     background:linear-gradient(180deg,#0F0F14,#171720);
 }
 
 body.dark .container{
     background:rgba(25,25,35,.82);
-
-    border:1px solid rgba(255,255,255,.05);
-
-    box-shadow:
-    0 10px 40px rgba(0,0,0,.35);
-}
-
-body.dark h2,
-body.dark .main-label,
-body.dark .config-card small{
-    color:#C7B8FF;
 }
 
 body.dark textarea,
-body.dark .config-card input,
+body.dark input,
 body.dark .inline-qty{
     background:#1E1E2B;
-
+    color:white;
     border-color:#34344A;
-
-    color:#fff;
 }
 
-body.dark .table-container{
+body.dark .table-container,
+body.dark .config-card{
     background:#181824;
-
-    border-color:#2B2B3A;
-}
-
-body.dark th{
-    background:#202032;
-
-    color:#C7B8FF;
-}
-
-body.dark td{
-    border-color:#2A2A3A;
-
-    color:#EAEAEA;
-}
-
-body.dark tr:hover{
-    background:rgba(255,255,255,.03);
 }
 
 body.dark .link-text{
     color:#CFCFEA;
 }
 
-body.dark .config-card{
-    background:#181824;
+/* Neon */
 
-    border-color:#2A2A3A;
-}
-
-body.dark .result-area{
-    background:#181824 !important;
-
-    color:#C7B8FF !important;
-
-    border-color:#34344A !important;
-}
-
-body.dark .btn-check{
-    background:#2A2A3A;
-
-    color:#C7B8FF;
-}
-
-body.dark .btn-check:hover{
-    background:#7C4DFF;
-    color:white;
-}
-
-/* Selection */
-::selection{
-    background:#B388FF;
-    color:white;
-}
-
-/* Mobile */
-@media(max-width:480px){
-
-    .container{
-        padding:18px;
-        border-radius:24px;
-    }
-
-    h2{
-        font-size:1.35rem;
-    }
-
-    .btn{
-        font-size:14px;
-    }
+.neon .container{
+    box-shadow:
+    0 0 18px rgba(124,77,255,.45),
+    0 0 40px rgba(124,77,255,.18);
 }
 
 </style>
@@ -643,6 +625,20 @@ body.dark .btn-check:hover{
 <body>
 
 <div class="bg-glow"></div>
+
+<div class="particles">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<div id="toast">
+    ✅ คัดลอกเรียบร้อย
+</div>
 
 <div class="container">
 
@@ -664,6 +660,10 @@ body.dark .btn-check:hover{
         placeholder="วางลิงก์ได้เลย ระบบจะเว้นบรรทัดให้อัตโนมัติ..."
     ></textarea>
 
+    <div class="link-count" id="linkCount">
+        ลิงก์ทั้งหมด: 0
+    </div>
+
     <button class="btn btn-blue" onclick="generateTable()">
         ✨ สร้างรายการ Mass order
     </button>
@@ -674,11 +674,9 @@ body.dark .btn-check:hover{
 
             <thead>
                 <tr>
-                    <th style="width:15%;">ไอดี</th>
-                    <th>ลิงก์ / เช็คคลิป</th>
-                    <th style="width:25%; text-align:center;">
-                        จำนวน
-                    </th>
+                    <th>ไอดี</th>
+                    <th>ลิงก์</th>
+                    <th>จำนวน</th>
                 </tr>
             </thead>
 
@@ -716,11 +714,7 @@ body.dark .btn-check:hover{
         🪄 สร้าง Mass Order เลย!!
     </button>
 
-    <div id="finalResult">
-
-        <label class="main-label">
-            ✅ รายการ Mass order:
-        </label>
+    <div id="finalResult" style="display:none; margin-top:25px;">
 
         <textarea
             id="outputArea"
@@ -757,68 +751,91 @@ inputArea.addEventListener('input',()=>{
 
         inputArea.value = fixedContent;
     }
+
+    const count =
+    inputArea.value
+    .split('\n')
+    .filter(v => v.trim() !== '')
+    .length;
+
+    document.getElementById('linkCount')
+    .innerHTML =
+    `ลิงก์ทั้งหมด: ${count}`;
 });
 
 function generateTable(){
 
-    const links = inputArea.value
-    .split('\n')
-    .map(l => l.trim())
-    .filter(l => l !== '');
+    const btn =
+    document.querySelector('.btn-blue');
 
-    const sid =
-    document.getElementById('serviceId').value;
+    btn.innerHTML =
+    '⏳ กำลังสร้าง...';
 
-    const qty =
-    document.getElementById('quantity').value;
+    setTimeout(()=>{
 
-    const tbody =
-    document.getElementById('tableBody');
+        const links = inputArea.value
+        .split('\n')
+        .map(l => l.trim())
+        .filter(l => l !== '');
 
-    tbody.innerHTML = '';
+        const sid =
+        document.getElementById('serviceId').value;
 
-    links.forEach((link,index)=>{
+        const qty =
+        document.getElementById('quantity').value;
 
-        const row =
-        document.createElement('tr');
+        const tbody =
+        document.getElementById('tableBody');
 
-        row.classList.add('table-row-animate');
+        tbody.innerHTML = '';
 
-        row.innerHTML = `
+        links.forEach((link,index)=>{
 
-            <td style="font-weight:bold; color:#7C4DFF;">
-                ${sid}
-            </td>
+            const row =
+            document.createElement('tr');
 
-            <td>
+            row.classList.add('table-row-animate');
 
-                <span class="link-text">
-                    ${link}
-                </span>
+            row.innerHTML = `
 
-                <button
-                    class="btn-check"
-                    onclick="window.open('${link}','_blank'); this.style.background='#7C4DFF'; this.style.color='#fff';"
-                >
-                    👁️ เช็คคลิป
-                </button>
+                <td>${sid}</td>
 
-            </td>
+                <td>
 
-            <td style="text-align:center;">
+                    <span class="link-text">
+                        ${link}
+                    </span>
 
-                <input
-                    type="number"
-                    class="inline-qty"
-                    value="${qty}"
-                    id="qty_${index}"
-                >
+                    <button
+                        class="btn-check"
+                        onclick="window.open('${link}','_blank')"
+                    >
+                        👁️ เช็คคลิป
+                    </button>
 
-            </td>
-        `;
+                </td>
 
-        tbody.appendChild(row);
-    });
+                <td>
+
+                    <input
+                        type="number"
+                        class="inline-qty"
+                        value="${qty}"
+                        id="qty_${index}"
+                    >
+
+                </td>
+            `;
+
+            tbody.appendChild(row);
+        });
+
+        btn.innerHTML =
+        '✨ สร้างรายการ Mass order';
+
+        showToast('✨ สร้างรายการสำเร็จ');
+
+    },450);
 }
 
 function generateMassOrder(){
@@ -830,9 +847,6 @@ function generateMassOrder(){
 
     const sid =
     document.getElementById('serviceId').value;
-
-    if(links.length === 0)
-    return alert('ใส่ลิงก์ก่อนนะ!');
 
     const result = links.map((l,i)=>{
 
@@ -848,12 +862,6 @@ function generateMassOrder(){
 
     document.getElementById('finalResult').style.display =
     'block';
-
-    document
-    .getElementById('finalResult')
-    .scrollIntoView({
-        behavior:'smooth'
-    });
 }
 
 function copyToClipboard(){
@@ -865,10 +873,27 @@ function copyToClipboard(){
 
     navigator.clipboard.writeText(output.value);
 
-    alert('คัดลอกเรียบร้อย 💜');
+    showToast('📋 คัดลอกเรียบร้อย');
+}
+
+function showToast(text){
+
+    const toast =
+    document.getElementById('toast');
+
+    toast.innerHTML = text;
+
+    toast.classList.add('show');
+
+    setTimeout(()=>{
+
+        toast.classList.remove('show');
+
+    },2200);
 }
 
 /* Dark Mode */
+
 function toggleTheme(){
 
     document.body.classList.toggle('dark');
@@ -878,19 +903,20 @@ function toggleTheme(){
 
     if(document.body.classList.contains('dark')){
 
-        btn.innerHTML = '☀️ Light Mode';
+        btn.innerHTML =
+        '☀️ Light Mode';
 
         localStorage.setItem('theme','dark');
 
     }else{
 
-        btn.innerHTML = '🌙 Dark Mode';
+        btn.innerHTML =
+        '🌙 Dark Mode';
 
         localStorage.setItem('theme','light');
     }
 }
 
-/* Load Theme */
 window.addEventListener('load',()=>{
 
     const savedTheme =
@@ -901,8 +927,33 @@ window.addEventListener('load',()=>{
         document.body.classList.add('dark');
 
         document.getElementById('themeBtn')
-        .innerHTML = '☀️ Light Mode';
+        .innerHTML =
+        '☀️ Light Mode';
     }
+});
+
+/* Neon Mode */
+
+let tapCount = 0;
+
+document.querySelector('h2')
+.addEventListener('click',()=>{
+
+    tapCount++;
+
+    if(tapCount >= 2){
+
+        document.body
+        .classList.toggle('neon');
+
+        showToast('🌈 Neon Mode');
+
+        tapCount = 0;
+    }
+
+    setTimeout(()=>{
+        tapCount = 0;
+    },600);
 });
 
 </script>
