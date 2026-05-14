@@ -19,13 +19,7 @@
     padding:0;
     box-sizing:border-box;
     -webkit-tap-highlight-color:transparent;
-
-    transition:
-    background-color .25s ease,
-    border-color .25s ease,
-    color .25s ease,
-    box-shadow .25s ease,
-    transform .2s ease;
+    transition: background-color .25s ease, border-color .25s ease, color .25s ease, box-shadow .25s ease, transform .2s ease;
 }
 
 body{
@@ -36,57 +30,17 @@ body{
     overflow-x:hidden;
 }
 
-/* Glow */
-.bg-glow{
-    position:fixed;
-    top:-180px;
-    left:50%;
-    transform:translateX(-50%);
-    width:420px;
-    height:420px;
-    background:#A855F7;
-    filter:blur(120px);
-    opacity:.18;
-    z-index:-1;
-    animation:floatGlow 8s ease-in-out infinite;
-}
+/* Glow & Particles */
+.bg-glow{ position:fixed; top:-180px; left:50%; transform:translateX(-50%); width:420px; height:420px; background:#A855F7; filter:blur(120px); opacity:.18; z-index:-1; animation:floatGlow 8s ease-in-out infinite; }
+@keyframes floatGlow{ 0%, 100%{ transform:translateX(-50%) translateY(0px); } 50%{ transform:translateX(-50%) translateY(30px); } }
 
-@keyframes floatGlow{
-    0%{ transform:translateX(-50%) translateY(0px); }
-    50%{ transform:translateX(-50%) translateY(30px); }
-    100%{ transform:translateX(-50%) translateY(0px); }
-}
-
-/* Particles */
-.particles{
-    position:fixed;
-    inset:0;
-    overflow:hidden;
-    pointer-events:none;
-    z-index:-2;
-}
-
-.particles span{
-    position:absolute;
-    bottom:-100px;
-    border-radius:50%;
-    background:rgba(124,77,255,.18);
-    animation:floatParticle linear infinite;
-}
-
+.particles{ position:fixed; inset:0; overflow:hidden; pointer-events:none; z-index:-2; }
+.particles span{ position:absolute; bottom:-100px; border-radius:50%; background:rgba(124,77,255,.18); animation:floatParticle linear infinite; }
 .particles span:nth-child(1){ left:10%; width:14px; height:14px; animation-duration:16s; }
 .particles span:nth-child(2){ left:25%; width:9px; height:9px; animation-duration:12s; }
 .particles span:nth-child(3){ left:40%; width:18px; height:18px; animation-duration:20s; }
 .particles span:nth-child(4){ left:58%; width:8px; height:8px; animation-duration:14s; }
-.particles span:nth-child(5){ left:70%; width:13px; height:13px; animation-duration:18s; }
-.particles span:nth-child(6){ left:85%; width:10px; height:10px; animation-duration:15s; }
-.particles span:nth-child(7){ left:95%; width:7px; height:7px; animation-duration:11s; }
-
-@keyframes floatParticle{
-    0%{ transform: translateY(0) scale(0); opacity:0; }
-    10%{ opacity:1; }
-    100%{ transform: translateY(-120vh) scale(1); opacity:0; }
-}
+@keyframes floatParticle{ 0%{ transform: translateY(0) scale(0); opacity:0; } 10%{ opacity:1; } 100%{ transform: translateY(-120vh) scale(1); opacity:0; } }
 
 /* Container */
 .container{
@@ -99,260 +53,77 @@ body{
     border-radius:28px;
     border:1px solid rgba(255,255,255,.6);
     box-shadow: 0 10px 40px rgba(124,77,255,.12), 0 0 0 1px rgba(255,255,255,.4);
-    animation:fadeUp .45s ease;
 }
 
-.container:hover{ transform:translateY(-2px); }
+h2{ text-align:center; font-size:1.55rem; margin-bottom:14px; color:var(--primary-color); font-weight:800; }
 
-@keyframes fadeUp{
-    from{ opacity:0; transform:translateY(15px); }
-    to{ opacity:1; transform:translateY(0); }
-}
+.theme-toggle{ display:flex; justify-content:center; margin-bottom:20px; }
+.theme-toggle button{ border:none; background:rgba(124,77,255,.12); color:#6C4DFF; padding:10px 16px; border-radius:14px; font-weight:700; cursor:pointer; }
 
-/* Title */
-h2{
-    text-align:center;
-    font-size:1.55rem;
-    margin-bottom:14px;
-    color:var(--primary-color);
-    font-weight:800;
-}
+.main-label{ font-weight:700; color:#5B3FD1; display:block; margin-bottom:10px; }
 
-/* Theme */
-.theme-toggle{
-    display:flex;
-    justify-content:center;
-    margin-bottom:20px;
-}
-
-.theme-toggle button{
-    border:none;
-    background:rgba(124,77,255,.12);
-    color:#6C4DFF;
-    padding:10px 16px;
-    border-radius:14px;
-    font-weight:700;
-    cursor:pointer;
-}
-
-/* Label */
-.main-label{
-    font-weight:700;
-    color:#5B3FD1;
-    display:block;
-    margin-bottom:10px;
-}
-
-/* Textarea */
 textarea{
-    width:100%;
-    padding:16px;
-    border:2px solid #EEE9F5;
-    border-radius:18px;
-    font-size:14px;
-    outline:none;
-    resize:none;
-    background:rgba(255,255,255,.8);
-    animation:softPulse 4s ease-in-out infinite;
-}
-
-textarea:focus{
-    border-color:var(--primary-light);
-    box-shadow:0 0 0 5px rgba(124,77,255,.1);
-}
-
-@keyframes softPulse{
-    0%{ box-shadow:0 0 0 rgba(124,77,255,0); }
-    50%{ box-shadow:0 0 18px rgba(124,77,255,.08); }
-    100%{ box-shadow:0 0 0 rgba(124,77,255,0); }
+    width:100%; padding:16px; border:2px solid #EEE9F5; border-radius:18px; font-size:14px; outline:none; resize:none; background:rgba(255,255,255,.8);
 }
 
 /* Buttons */
-.btn{
-    width:100%;
-    padding:16px;
-    border:none;
-    border-radius:18px;
-    font-size:15px;
-    font-weight:700;
-    cursor:pointer;
-    position:relative;
-    overflow:hidden;
-}
+.btn{ width:100%; padding:16px; border:none; border-radius:18px; font-size:15px; font-weight:700; cursor:pointer; position:relative; overflow:hidden; }
+.btn-blue{ margin-top:15px; color:white; background:linear-gradient(135deg,#7C4DFF,#B388FF); box-shadow:0 10px 25px rgba(124,77,255,.28); }
+.btn-green{ margin-top:22px; color:white; background:linear-gradient(135deg,#00C896,#00E0B0); box-shadow:0 10px 25px rgba(0,200,150,.25); }
 
-.btn::before{
-    content:'';
-    position:absolute;
-    top:0;
-    left:-120%;
-    width:100%;
-    height:100%;
-    background:linear-gradient(90deg, transparent, rgba(255,255,255,.28), transparent);
-    transition:.65s;
-}
-
-.btn:hover::before{ left:120%; }
-.btn:hover{ transform:translateY(-2px); }
-
-.btn-blue{
-    margin-top:15px;
-    color:white;
-    background:linear-gradient(135deg,#7C4DFF,#B388FF);
-    box-shadow:0 10px 25px rgba(124,77,255,.28);
-}
-
-.btn-green{
-    margin-top:22px;
-    color:white;
-    background:linear-gradient(135deg,#00C896,#00E0B0);
-    box-shadow:0 10px 25px rgba(0,200,150,.25);
-}
-
-/* Config Card (ย้ายขึ้นมาไว้ด้านบนปุ่มแล้ว) */
-.config-card{
-    margin-top:20px;
-    margin-bottom:5px;
-    background:rgba(255,255,255,.75);
-    padding:16px;
-    border-radius:22px;
-    border: 1px solid rgba(124,77,255,.1);
-}
-
-.config-card input{
-    width:100%;
-    padding:12px;
-    border:2px solid #EEE9F5;
-    border-radius:14px;
-    text-align:center;
-    font-weight:700;
-    font-size: 16px;
-    color: var(--primary-color);
-}
-
-.config-card small {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 700;
-    color: #7C4DFF;
-    text-align: left;
-}
+/* Config Card */
+.config-card{ margin-top:20px; margin-bottom:5px; background:rgba(255,255,255,.75); padding:16px; border-radius:22px; border: 1px solid rgba(124,77,255,.1); }
+.config-card input{ width:100%; padding:12px; border:2px solid #EEE9F5; border-radius:14px; text-align:center; font-weight:700; font-size: 16px; color: var(--primary-color); }
+.config-card small { display: block; margin-bottom: 8px; font-weight: 700; color: #7C4DFF; }
 
 /* Table */
-.table-container{
-    overflow-x:auto;
-    margin-top:20px;
-    border-radius:22px;
-    border:1px solid #F0EAFB;
-    background:rgba(255,255,255,.72);
-}
+.table-container{ overflow-x:auto; margin-top:20px; border-radius:22px; border:1px solid #F0EAFB; background:rgba(255,255,255,.72); }
+table{ width:100%; border-collapse:collapse; }
+th{ background:rgba(124,77,255,.08); padding:14px; color:#7C4DFF; }
+td{ padding:15px 12px; border-bottom:1px solid #F8F6FD; text-align: center; }
 
-table{
-    width:100%;
-    border-collapse:collapse;
-}
+/* Sid Column สำหรับแก้ฟอนต์เลขไอดี */
+.sid-column { font-weight: 700; color: #444; }
 
-th{
-    background:rgba(124,77,255,.08);
-    padding:14px;
-    color:#7C4DFF;
-}
+.inline-qty{ width:85px; padding:10px; border:2px solid rgba(124,77,255,.18); border-radius:12px; text-align:center; font-weight:700; background:#FAF7FF; }
+.link-text{ word-break:break-all; font-size:12px; margin-bottom:6px; display:block; text-align: left; }
+.btn-check{ background:rgba(124,77,255,.08); color:var(--primary-color); padding:8px 14px; border-radius:12px; border:none; cursor:pointer; display: block; width: fit-content; }
 
-td{
-    padding:15px 12px;
-    border-bottom:1px solid #F8F6FD;
-    text-align: center;
-}
-
-.table-row-animate{
-    animation:rowPop .35s ease;
-}
-
-@keyframes rowPop{
-    from{ opacity:0; transform:translateY(12px); }
-    to{ opacity:1; transform:translateY(0); }
-}
-
-.inline-qty{
-    width:85px;
-    padding:10px;
-    border:2px solid rgba(124,77,255,.18);
-    border-radius:12px;
-    text-align:center;
-    font-weight:700;
-    background:#FAF7FF;
-}
-
-.link-text{
-    word-break:break-all;
-    font-size:12px;
-    margin-bottom:6px;
-    display:block;
-    text-align: left;
-}
-
-.btn-check{
-    background:rgba(124,77,255,.08);
-    color:var(--primary-color);
-    padding:8px 14px;
-    border-radius:12px;
-    border:none;
-    cursor:pointer;
-    display: block;
-    width: fit-content;
-}
-
+/* Result Area */
 .result-area{
     background:#FAFAFF !important;
     border:2px solid #DCCFFF !important;
     color:#4834D4 !important;
     font-weight:700;
-    animation:resultGlow 3s ease-in-out infinite;
-}
-
-@keyframes resultGlow{
-    0%{ box-shadow:0 0 0 rgba(124,77,255,0); }
-    50%{ box-shadow:0 0 24px rgba(124,77,255,.18); }
-    100%{ box-shadow:0 0 0 rgba(124,77,255,0); }
+    margin-top: 15px;
 }
 
 /* Toast */
-#toast{
-    position:fixed;
-    left:50%;
-    bottom:25px;
-    transform: translateX(-50%) translateY(120px);
-    background:rgba(25,25,35,.95);
-    color:white;
-    padding:14px 18px;
-    border-radius:16px;
-    font-weight:700;
-    z-index:9999;
-    opacity:0;
-    transition:.35s ease;
-}
+#toast{ position:fixed; left:50%; bottom:25px; transform: translateX(-50%) translateY(120px); background:rgba(25,25,35,.95); color:white; padding:14px 18px; border-radius:16px; font-weight:700; z-index:9999; opacity:0; transition:.35s ease; }
+#toast.show{ opacity:1; transform: translateX(-50%) translateY(0); }
 
-#toast.show{
-    opacity:1;
-    transform: translateX(-50%) translateY(0);
-}
+.link-count{ margin-top:10px; text-align:right; font-size:12px; font-weight:700; color:#7C4DFF; }
 
-/* Counter */
-.link-count{
-    margin-top:10px;
-    text-align:right;
-    font-size:12px;
-    font-weight:700;
-    color:#7C4DFF;
-}
-
-/* Dark */
+/* =========================================
+   DARK MODE CSS (แก้ไขตรงนี้)
+   ========================================= */
 body.dark{ background:linear-gradient(180deg,#0F0F14,#171720); }
-body.dark .container{ background:rgba(25,25,35,.82); }
+body.dark .container{ background:rgba(25,25,35,.82); border-color: rgba(255,255,255,0.05); }
 body.dark textarea, body.dark input, body.dark .inline-qty{ background:#1E1E2B; color:white; border-color:#34344A; }
-body.dark .table-container, body.dark .config-card{ background:#181824; }
+
+/* แก้ไขสีเลขไอดีในตารางตอนโหมดมืด */
+body.dark .sid-column { color: #DCCFFF !important; }
+
+body.dark .table-container, body.dark .config-card{ background:#181824; border-color: #2A2A3A; }
 body.dark .link-text{ color:#CFCFEA; }
 
-/* Neon */
+/* แก้ไขพื้นหลังช่องสรุปผลข้างล่างตอนโหมดมืด */
+body.dark .result-area {
+    background: #12121A !important; 
+    color: #B388FF !important; 
+    border-color: #7C4DFF44 !important;
+}
+
 .neon .container{ box-shadow: 0 0 18px rgba(124,77,255,.45), 0 0 40px rgba(124,77,255,.18); }
 
 </style>
@@ -361,44 +132,27 @@ body.dark .link-text{ color:#CFCFEA; }
 <body>
 
 <div class="bg-glow"></div>
-
-<div class="particles">
-    <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-</div>
-
+<div class="particles"><span></span><span></span><span></span><span></span></div>
 <div id="toast">✅ คัดลอกเรียบร้อย</div>
 
 <div class="container">
-
     <h2>Mass order by Ptk Saifa ✨</h2>
-
-    <div class="theme-toggle">
-        <button onclick="toggleTheme()" id="themeBtn">🌙 Dark Mode</button>
-    </div>
+    <div class="theme-toggle"><button onclick="toggleTheme()" id="themeBtn">🌙 Dark Mode</button></div>
 
     <label class="main-label">🔮 วางลิงก์ที่นี่</label>
-
-    <textarea id="inputLinks" rows="5" placeholder="วางลิงก์ได้เลย ระบบจะเว้นบรรทัดให้อัตโนมัติ..."></textarea>
-
+    <textarea id="inputLinks" rows="5" placeholder="วางลิงก์ได้เลย..."></textarea>
     <div class="link-count" id="linkCount">ลิงก์ทั้งหมด: 0</div>
 
-    <!-- ย้ายไอดีขึ้นมาไว้ตรงนี้ และลบจำนวนออกแล้วครับ -->
     <div class="config-card">
         <small>🆔 ไอดีบริการ</small>
-        <input type="text" id="serviceId" value="4525" placeholder="ใส่เลขไอดี">
+        <input type="text" id="serviceId" value="4525">
     </div>
 
     <button class="btn btn-blue" onclick="generateTable()">✨ สร้างรายการ Mass order</button>
 
     <div class="table-container">
         <table>
-            <thead>
-                <tr>
-                    <th>ไอดี</th>
-                    <th>ลิงก์</th>
-                    <th>จำนวน</th>
-                </tr>
-            </thead>
+            <thead><tr><th>ไอดี</th><th>ลิงก์</th><th>จำนวน</th></tr></thead>
             <tbody id="tableBody"></tbody>
         </table>
     </div>
@@ -409,7 +163,6 @@ body.dark .link-text{ color:#CFCFEA; }
         <textarea id="outputArea" rows="6" readonly class="result-area"></textarea>
         <button class="btn btn-blue" style="margin-top:12px;" onclick="copyToClipboard()">📋 คัดลอกทั้งหมด</button>
     </div>
-
 </div>
 
 <script>
@@ -435,20 +188,16 @@ function generateTable(){
         tbody.innerHTML = '';
         links.forEach((link,index)=>{
             const row = document.createElement('tr');
-            row.classList.add('table-row-animate');
             row.innerHTML = `
-                <td style="font-weight:700;">${sid}</td>
+                <td class="sid-column">${sid}</td>
                 <td>
                     <span class="link-text">${link}</span>
                     <button class="btn-check" onclick="window.open('${link}','_blank')">👁️ เช็คคลิป</button>
                 </td>
-                <td>
-                    <input type="number" class="inline-qty" placeholder="ใส่จำนวน" id="qty_${index}">
-                </td>
+                <td><input type="number" class="inline-qty" placeholder="ใส่จำนวน" id="qty_${index}"></td>
             `;
             tbody.appendChild(row);
         });
-
         btn.innerHTML = '✨ สร้างรายการ Mass order';
         showToast('✨ สร้างรายการสำเร็จ');
     },450);
@@ -457,22 +206,15 @@ function generateTable(){
 function generateMassOrder(){
     const links = inputArea.value.split('\n').map(l => l.trim()).filter(l => l !== '');
     const sid = document.getElementById('serviceId').value;
-    
-    // ตรวจสอบว่ามีข้อมูลลิงก์ไหม
-    if(links.length === 0) {
-        showToast('⚠️ กรุณาใส่ลิงก์ก่อนครับ');
-        return;
-    }
+    if(links.length === 0) { showToast('⚠️ กรุณาใส่ลิงก์ก่อนครับ'); return; }
 
     const result = links.map((l,i)=>{
-        const currentQty = document.getElementById(`qty_${i}`).value || 0; // ถ้าไม่ใส่ให้เป็น 0
+        const currentQty = document.getElementById(`qty_${i}`).value || 0;
         return `${sid}|${l}|${currentQty}`;
     }).join('\n');
 
     document.getElementById('outputArea').value = result;
     document.getElementById('finalResult').style.display = 'block';
-    
-    // เลื่อนลงไปดูผลลัพธ์
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
 }
 
@@ -508,17 +250,6 @@ window.addEventListener('load',()=>{
         document.body.classList.add('dark');
         document.getElementById('themeBtn').innerHTML = '☀️ Light Mode';
     }
-});
-
-let tapCount = 0;
-document.querySelector('h2').addEventListener('click',()=>{
-    tapCount++;
-    if(tapCount >= 2){
-        document.body.classList.toggle('neon');
-        showToast('🌈 Neon Mode');
-        tapCount = 0;
-    }
-    setTimeout(()=>{ tapCount = 0; },600);
 });
 </script>
 
