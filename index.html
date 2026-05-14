@@ -9,24 +9,20 @@
         .container { background: #fff; max-width: 500px; margin: 0 auto; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         h2 { font-size: 1.2rem; text-align: center; margin-bottom: 20px; }
         label { font-weight: bold; display: block; margin-bottom: 8px; }
-        textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 12px; box-sizing: border-box; font-size: 14px; margin-bottom: 15px; background: #fff; }
+        textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 12px; box-sizing: border-box; font-size: 14px; margin-bottom: 5px; background: #fff; outline: none; }
+        .hint { font-size: 0.7rem; color: #888; margin-bottom: 15px; }
         .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; }
         .btn-blue { background-color: #007bff; color: white; margin-bottom: 20px; }
         .btn-green { background-color: #28a745; color: white; margin-top: 15px; }
-        
         table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
         th { background: #f8f9fa; text-align: left; padding: 10px; border-bottom: 2px solid #eee; }
         td { padding: 12px 10px; border-bottom: 1px solid #eee; vertical-align: middle; }
-        
         .service-id { color: #007bff; font-weight: bold; }
         .link-text { word-break: break-all; display: block; margin-bottom: 5px; color: #444; }
-        .btn-check { background-color: #6c757d; color: white; padding: 5px 10px; border-radius: 6px; font-size: 11px; text-decoration: none; display: inline-flex; align-items: center; border: none; }
-        .btn-check:visited { background-color: #333; } /* เปลี่ยนสีเมื่อกดแล้ว */
-        
+        .btn-check { background-color: #6c757d; color: white; padding: 6px 12px; border-radius: 6px; font-size: 11px; border: none; cursor: pointer; }
         .config-area { display: flex; gap: 10px; margin-top: 20px; background: #f8f9fa; padding: 15px; border-radius: 12px; }
         .config-area div { flex: 1; }
         .config-area input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; margin-top: 5px; box-sizing: border-box; }
-        
         #finalResult { margin-top: 15px; display: none; }
     </style>
 </head>
@@ -36,7 +32,8 @@
     <h2>🚀 ระบบเตรียม Mass Order</h2>
     
     <label>1. วางลิงก์ TikTok</label>
-    <textarea id="inputLinks" rows="6" placeholder="วางลิงก์ที่นี่..."></textarea>
+    <textarea id="inputLinks" rows="8" placeholder="กดจิ้มจากคีย์บอร์ดได้เลย..."></textarea>
+    <div class="hint">* ระบบจะแยกบรรทัดให้เองเมื่อเจอ https://</div>
 
     <button class="btn btn-blue" onclick="generateTable()">➕ นำลิงก์ใส่ตาราง</button>
 
@@ -47,20 +44,12 @@
                 <th>ลิงก์ / เช็คคลิป</th>
             </tr>
         </thead>
-        <tbody id="tableBody">
-            <!-- ข้อมูลจะมาโผล่ตรงนี้ -->
-        </tbody>
+        <tbody id="tableBody"></tbody>
     </table>
 
     <div class="config-area">
-        <div>
-            <small>ไอดีบริการ</small>
-            <input type="text" id="serviceId" value="4525">
-        </div>
-        <div>
-            <small>จำนวน</small>
-            <input type="number" id="quantity" value="1000">
-        </div>
+        <div><small>ไอดีบริการ</small><input type="text" id="serviceId" value="4525"></div>
+        <div><small>จำนวน</small><input type="number" id="quantity" value="1000"></div>
     </div>
 
     <button class="btn btn-green" onclick="generateMassOrder()">🪄 สร้างข้อมูล Mass Order</button>
@@ -75,14 +64,16 @@
 <script>
     const inputArea = document.getElementById('inputLinks');
 
-    // ฟีเจอร์: วางปุ๊บ เว้นบรรทัดให้ปั๊บ
-    inputArea.addEventListener('paste', () => {
-        setTimeout(() => {
-            if (inputArea.value && !inputArea.value.endsWith('\n')) {
-                inputArea.value += '\n';
-                inputArea.scrollTop = inputArea.scrollHeight;
-            }
-        }, 50);
+    // แก้ไขใหม่: เช็คทุกลมหายใจ ถ้าเจอลิงก์ติดกันให้แยกบรรทัดทันที
+    inputArea.addEventListener('input', () => {
+        let content = inputArea.value;
+        // ค้นหาตำแหน่งที่ https โผล่มาโดยไม่มีบรรทัดใหม่ข้างหน้า แล้วเติม \n เข้าไป
+        let fixedContent = content.replace(/([^\n])(https:\/\/)/g, '$1\n$2');
+        
+        if (content !== fixedContent) {
+            inputArea.value = fixedContent;
+            inputArea.scrollTop = inputArea.scrollHeight;
+        }
     });
 
     function generateTable() {
@@ -90,8 +81,7 @@
         const links = text.split('\n').map(l => l.trim()).filter(l => l !== '');
         const sid = document.getElementById('serviceId').value;
         const tbody = document.getElementById('tableBody');
-        
-        tbody.innerHTML = ''; // ล้างตารางเก่า
+        tbody.innerHTML = '';
         
         links.forEach(link => {
             const row = document.createElement('tr');
@@ -99,7 +89,7 @@
                 <td class="service-id">${sid}</td>
                 <td>
                     <span class="link-text">${link}</span>
-                    <button class="btn-check" onclick="window.open('${link}', '_blank'); this.style.backgroundColor='#333';">
+                    <button class="btn-check" onclick="window.open('${link}', '_blank'); this.style.backgroundColor='#333'; this.innerText='✔️ เช็คแล้ว';">
                         👁️ เปิดเช็คคลิป
                     </button>
                 </td>
@@ -113,22 +103,18 @@
         const links = text.split('\n').map(l => l.trim()).filter(l => l !== '');
         const sid = document.getElementById('serviceId').value;
         const qty = document.getElementById('quantity').value;
-        
         if (links.length === 0) return alert('กรุณาวางลิงก์ก่อนครับ');
-
         const result = links.map(l => `${sid}|${l}|${qty}`).join('\n');
         document.getElementById('outputArea').value = result;
         document.getElementById('finalResult').style.display = 'block';
-        document.getElementById('finalResult').scrollIntoView({ behavior: 'smooth' });
     }
 
     function copyToClipboard() {
         const output = document.getElementById('outputArea');
         output.select();
         navigator.clipboard.writeText(output.value);
-        alert('คัดลอกแล้ว! นำไปวางในหน้า Mass Order ได้เลย');
+        alert('คัดลอกแล้ว!');
     }
 </script>
-
 </body>
 </html>
