@@ -208,15 +208,14 @@ textarea:focus{
     box-shadow:0 10px 25px rgba(0,200,150,.25);
 }
 
-/* Config Card (ย้ายขึ้นมาแล้วปรับ margin) */
+/* Config Card (ย้ายขึ้นมาไว้ด้านบนปุ่มแล้ว) */
 .config-card{
-    display:flex;
-    gap:12px;
-    margin-top:15px; /* ลดลงมาหน่อยให้ชิดกับปุ่มบน */
-    margin-bottom:20px; /* เพิ่มระยะห่างก่อนถึงตาราง */
+    margin-top:20px;
+    margin-bottom:5px;
     background:rgba(255,255,255,.75);
-    padding:18px;
+    padding:16px;
     border-radius:22px;
+    border: 1px solid rgba(124,77,255,.1);
 }
 
 .config-card input{
@@ -226,19 +225,22 @@ textarea:focus{
     border-radius:14px;
     text-align:center;
     font-weight:700;
+    font-size: 16px;
+    color: var(--primary-color);
 }
 
 .config-card small {
     display: block;
-    margin-bottom: 5px;
-    font-weight: 600;
+    margin-bottom: 8px;
+    font-weight: 700;
     color: #7C4DFF;
+    text-align: left;
 }
 
 /* Table */
 .table-container{
     overflow-x:auto;
-    margin-top:5px;
+    margin-top:20px;
     border-radius:22px;
     border:1px solid #F0EAFB;
     background:rgba(255,255,255,.72);
@@ -258,6 +260,7 @@ th{
 td{
     padding:15px 12px;
     border-bottom:1px solid #F8F6FD;
+    text-align: center;
 }
 
 .table-row-animate{
@@ -270,7 +273,7 @@ td{
 }
 
 .inline-qty{
-    width:75px;
+    width:85px;
     padding:10px;
     border:2px solid rgba(124,77,255,.18);
     border-radius:12px;
@@ -284,6 +287,7 @@ td{
     font-size:12px;
     margin-bottom:6px;
     display:block;
+    text-align: left;
 }
 
 .btn-check{
@@ -293,6 +297,8 @@ td{
     border-radius:12px;
     border:none;
     cursor:pointer;
+    display: block;
+    width: fit-content;
 }
 
 .result-area{
@@ -376,19 +382,13 @@ body.dark .link-text{ color:#CFCFEA; }
 
     <div class="link-count" id="linkCount">ลิงก์ทั้งหมด: 0</div>
 
-    <button class="btn btn-blue" onclick="generateTable()">✨ สร้างรายการ Mass order</button>
-
-    <!-- ย้ายมาไว้ตรงนี้แล้วครับ -->
+    <!-- ย้ายไอดีขึ้นมาไว้ตรงนี้ และลบจำนวนออกแล้วครับ -->
     <div class="config-card">
-        <div>
-            <small>🆔 ไอดีบริการ</small>
-            <input type="text" id="serviceId" value="4525">
-        </div>
-        <div>
-            <small>📊 จำนวนเริ่มต้น</small>
-            <input type="number" id="quantity" placeholder="ระบุจำนวน">
-        </div>
+        <small>🆔 ไอดีบริการ</small>
+        <input type="text" id="serviceId" value="4525" placeholder="ใส่เลขไอดี">
     </div>
+
+    <button class="btn btn-blue" onclick="generateTable()">✨ สร้างรายการ Mass order</button>
 
     <div class="table-container">
         <table>
@@ -430,7 +430,6 @@ function generateTable(){
     setTimeout(()=>{
         const links = inputArea.value.split('\n').map(l => l.trim()).filter(l => l !== '');
         const sid = document.getElementById('serviceId').value;
-        const qty = document.getElementById('quantity').value;
         const tbody = document.getElementById('tableBody');
 
         tbody.innerHTML = '';
@@ -438,13 +437,13 @@ function generateTable(){
             const row = document.createElement('tr');
             row.classList.add('table-row-animate');
             row.innerHTML = `
-                <td>${sid}</td>
+                <td style="font-weight:700;">${sid}</td>
                 <td>
                     <span class="link-text">${link}</span>
                     <button class="btn-check" onclick="window.open('${link}','_blank')">👁️ เช็คคลิป</button>
                 </td>
                 <td>
-                    <input type="number" class="inline-qty" value="${qty}" id="qty_${index}">
+                    <input type="number" class="inline-qty" placeholder="ใส่จำนวน" id="qty_${index}">
                 </td>
             `;
             tbody.appendChild(row);
@@ -458,12 +457,23 @@ function generateTable(){
 function generateMassOrder(){
     const links = inputArea.value.split('\n').map(l => l.trim()).filter(l => l !== '');
     const sid = document.getElementById('serviceId').value;
+    
+    // ตรวจสอบว่ามีข้อมูลลิงก์ไหม
+    if(links.length === 0) {
+        showToast('⚠️ กรุณาใส่ลิงก์ก่อนครับ');
+        return;
+    }
+
     const result = links.map((l,i)=>{
-        const currentQty = document.getElementById(`qty_${i}`).value;
+        const currentQty = document.getElementById(`qty_${i}`).value || 0; // ถ้าไม่ใส่ให้เป็น 0
         return `${sid}|${l}|${currentQty}`;
     }).join('\n');
+
     document.getElementById('outputArea').value = result;
     document.getElementById('finalResult').style.display = 'block';
+    
+    // เลื่อนลงไปดูผลลัพธ์
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
 }
 
 function copyToClipboard(){
