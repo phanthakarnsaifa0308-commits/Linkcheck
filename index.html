@@ -3,22 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mass Order Helper Pro</title>
+    <title>Mass Order Helper</title>
     <style>
-        body { font-family: -apple-system, sans-serif; background-color: #f0f2f5; padding: 10px; margin: 0; }
-        .container { background: #fff; max-width: 500px; margin: 0 auto; padding: 20px; border-radius: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h2 { font-size: 1.1rem; text-align: center; color: #333; }
-        textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 14px; margin-bottom: 10px; }
-        .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; margin-bottom: 10px; transition: 0.2s; }
-        .btn-blue { background-color: #007bff; color: white; }
-        .btn-green { background-color: #28a745; color: white; }
-        .btn-copy { background-color: #17a2b8; color: white; margin-top: 5px; }
-        .table-wrapper { overflow-x: auto; margin: 15px 0; border-radius: 8px; border: 1px solid #eee; }
-        table { width: 100%; border-collapse: collapse; min-width: 450px; font-size: 13px; }
-        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #eee; }
-        .btn-view { padding: 4px 8px; background: #6c757d; color: white; text-decoration: none; border-radius: 4px; font-size: 11px; }
-        #result-section { margin-top: 20px; padding: 15px; border-top: 2px dashed #ddd; display: none; }
-        .copy-success { color: #28a745; font-size: 12px; font-weight: bold; display: none; text-align: center; margin-top: 5px; }
+        body { font-family: -apple-system, sans-serif; background-color: #f0f2f5; padding: 15px; margin: 0; }
+        .container { background: #fff; max-width: 500px; margin: 0 auto; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h2 { font-size: 1.2rem; text-align: center; margin-bottom: 20px; }
+        label { font-weight: bold; display: block; margin-bottom: 8px; }
+        textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 12px; box-sizing: border-box; font-size: 14px; margin-bottom: 15px; background: #fff; }
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .btn-blue { background-color: #007bff; color: white; margin-bottom: 20px; }
+        .btn-green { background-color: #28a745; color: white; margin-top: 15px; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+        th { background: #f8f9fa; text-align: left; padding: 10px; border-bottom: 2px solid #eee; }
+        td { padding: 12px 10px; border-bottom: 1px solid #eee; vertical-align: middle; }
+        
+        .service-id { color: #007bff; font-weight: bold; }
+        .link-text { word-break: break-all; display: block; margin-bottom: 5px; color: #444; }
+        .btn-check { background-color: #6c757d; color: white; padding: 5px 10px; border-radius: 6px; font-size: 11px; text-decoration: none; display: inline-flex; align-items: center; border: none; }
+        .btn-check:visited { background-color: #333; } /* เปลี่ยนสีเมื่อกดแล้ว */
+        
+        .config-area { display: flex; gap: 10px; margin-top: 20px; background: #f8f9fa; padding: 15px; border-radius: 12px; }
+        .config-area div { flex: 1; }
+        .config-area input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; margin-top: 5px; box-sizing: border-box; }
+        
+        #finalResult { margin-top: 15px; display: none; }
     </style>
 </head>
 <body>
@@ -26,89 +35,98 @@
 <div class="container">
     <h2>🚀 ระบบเตรียม Mass Order</h2>
     
-    <label style="font-size: 0.9rem; font-weight: bold;">1. วางลิงก์ TikTok</label>
-    <textarea id="linkInput" rows="4" placeholder="วางลิงก์ที่นี่..."></textarea>
-    
-    <button class="btn btn-blue" onclick="loadToTable()">➕ นำลิงก์ใส่ตาราง</button>
+    <label>1. วางลิงก์ TikTok</label>
+    <textarea id="inputLinks" rows="6" placeholder="วางลิงก์ที่นี่..."></textarea>
 
-    <div class="table-wrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th>ไอดี</th>
-                    <th>ลิงก์ / เช็คคลิป</th>
-                    <th>ยอดวิว</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody"></tbody>
-        </table>
+    <button class="btn btn-blue" onclick="generateTable()">➕ นำลิงก์ใส่ตาราง</button>
+
+    <table id="linkTable">
+        <thead>
+            <tr>
+                <th style="width: 20%;">ไอดี</th>
+                <th>ลิงก์ / เช็คคลิป</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <!-- ข้อมูลจะมาโผล่ตรงนี้ -->
+        </tbody>
+    </table>
+
+    <div class="config-area">
+        <div>
+            <small>ไอดีบริการ</small>
+            <input type="text" id="serviceId" value="4525">
+        </div>
+        <div>
+            <small>จำนวน</small>
+            <input type="number" id="quantity" value="1000">
+        </div>
     </div>
 
     <button class="btn btn-green" onclick="generateMassOrder()">🪄 สร้างข้อมูล Mass Order</button>
 
-    <div id="result-section">
-        <label style="font-weight: bold; font-size: 0.9rem;">✅ ผลลัพธ์:</label>
-        <textarea id="finalResult" rows="5" readonly></textarea>
-        <button class="btn btn-copy" onclick="copyToClipboard()">📋 คัดลอกข้อมูลทั้งหมด</button>
-        <div id="copyMsg" class="copy-success">คัดลอกลง Clipboard แล้ว! ✨</div>
+    <div id="finalResult">
+        <label>คัดลอกไปวางในเว็บ:</label>
+        <textarea id="outputArea" rows="6" readonly></textarea>
+        <button class="btn btn-blue" onclick="copyToClipboard()">📋 คัดลอกทั้งหมด</button>
     </div>
 </div>
 
 <script>
-    const DEFAULT_ID = "4525";
-    const DEFAULT_QTY = "1000";
+    const inputArea = document.getElementById('inputLinks');
 
-    function loadToTable() {
-        const text = document.getElementById('linkInput').value;
-        const links = text.split('\n').filter(l => l.trim() !== '');
+    // ฟีเจอร์: วางปุ๊บ เว้นบรรทัดให้ปั๊บ
+    inputArea.addEventListener('paste', () => {
+        setTimeout(() => {
+            if (inputArea.value && !inputArea.value.endsWith('\n')) {
+                inputArea.value += '\n';
+                inputArea.scrollTop = inputArea.scrollHeight;
+            }
+        }, 50);
+    });
+
+    function generateTable() {
+        const text = inputArea.value;
+        const links = text.split('\n').map(l => l.trim()).filter(l => l !== '');
+        const sid = document.getElementById('serviceId').value;
         const tbody = document.getElementById('tableBody');
         
-        if(links.length === 0) return alert("กรุณาใส่ลิงก์ก่อนครับ");
-
-        tbody.innerHTML = '';
+        tbody.innerHTML = ''; // ล้างตารางเก่า
+        
         links.forEach(link => {
-            const cleanLink = link.trim();
-            const isTiktok = cleanLink.includes('tiktok.com');
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td style="color: #007bff; font-weight: bold;">${DEFAULT_ID}</td>
-                <td style="word-break: break-all;">
-                    ${cleanLink} 
-                    <br>
-                    <a href="${cleanLink}" target="_blank" class="btn-view">${isTiktok ? '👁️ เปิดเช็คคลิป' : '⚠️ ไม่ใช่ลิงก์ TikTok'}</a>
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="service-id">${sid}</td>
+                <td>
+                    <span class="link-text">${link}</span>
+                    <button class="btn-check" onclick="window.open('${link}', '_blank'); this.style.backgroundColor='#333';">
+                        👁️ เปิดเช็คคลิป
+                    </button>
                 </td>
-                <td><input type="number" value="${DEFAULT_QTY}" style="width: 60px; padding: 5px; border: 1px solid #ccc; border-radius: 4px;"></td>
             `;
-            tbody.appendChild(tr);
+            tbody.appendChild(row);
         });
     }
 
     function generateMassOrder() {
-        const rows = document.querySelectorAll('#tableBody tr');
-        if(rows.length === 0) return alert("ยังไม่มีข้อมูลในตาราง");
+        const text = inputArea.value;
+        const links = text.split('\n').map(l => l.trim()).filter(l => l !== '');
+        const sid = document.getElementById('serviceId').value;
+        const qty = document.getElementById('quantity').value;
+        
+        if (links.length === 0) return alert('กรุณาวางลิงก์ก่อนครับ');
 
-        let output = "";
-        rows.forEach(row => {
-            const id = row.cells[0].innerText;
-            const link = row.cells[1].firstChild.textContent.trim();
-            const qty = row.querySelector('input').value;
-            output += `${id}|${link}|${qty}\n`;
-        });
-
-        document.getElementById('finalResult').value = output.trim();
-        document.getElementById('result-section').style.display = 'block';
+        const result = links.map(l => `${sid}|${l}|${qty}`).join('\n');
+        document.getElementById('outputArea').value = result;
+        document.getElementById('finalResult').style.display = 'block';
+        document.getElementById('finalResult').scrollIntoView({ behavior: 'smooth' });
     }
 
     function copyToClipboard() {
-        const copyText = document.getElementById("finalResult");
-        copyText.select();
-        copyText.setSelectionRange(0, 99999); // สำหรับมือถือ
-
-        navigator.clipboard.writeText(copyText.value).then(() => {
-            const msg = document.getElementById("copyMsg");
-            msg.style.display = "block";
-            setTimeout(() => msg.style.display = "none", 2000);
-        });
+        const output = document.getElementById('outputArea');
+        output.select();
+        navigator.clipboard.writeText(output.value);
+        alert('คัดลอกแล้ว! นำไปวางในหน้า Mass Order ได้เลย');
     }
 </script>
 
