@@ -19,6 +19,13 @@
     padding:0;
     box-sizing:border-box;
     -webkit-tap-highlight-color:transparent;
+
+    transition:
+    background-color .25s ease,
+    border-color .25s ease,
+    color .25s ease,
+    box-shadow .25s ease,
+    transform .2s ease;
 }
 
 body{
@@ -32,7 +39,9 @@ body{
 
     overflow-x:hidden;
 
-    transition:.3s;
+    transition:
+    background .35s ease,
+    color .35s ease;
 }
 
 /* Glow */
@@ -54,6 +63,23 @@ body{
     opacity:.18;
 
     z-index:-1;
+
+    animation:floatGlow 8s ease-in-out infinite;
+}
+
+@keyframes floatGlow{
+
+    0%{
+        transform:translateX(-50%) translateY(0px);
+    }
+
+    50%{
+        transform:translateX(-50%) translateY(30px);
+    }
+
+    100%{
+        transform:translateX(-50%) translateY(0px);
+    }
 }
 
 /* Container */
@@ -80,6 +106,14 @@ body{
     animation:fadeUp .45s ease;
 
     transition:.3s;
+}
+
+.container:hover{
+    transform:translateY(-2px);
+
+    box-shadow:
+    0 18px 50px rgba(124,77,255,.16),
+    0 0 0 1px rgba(255,255,255,.45);
 }
 
 @keyframes fadeUp{
@@ -130,8 +164,6 @@ h2{
     font-weight:700;
 
     cursor:pointer;
-
-    transition:.25s;
 }
 
 .theme-toggle button:hover{
@@ -168,13 +200,28 @@ textarea{
 
     background:rgba(255,255,255,.8);
 
-    transition:.25s;
+    animation:softPulse 4s ease-in-out infinite;
 }
 
 textarea:focus{
     border-color:var(--primary-light);
 
     box-shadow:0 0 0 5px rgba(124,77,255,.1);
+}
+
+@keyframes softPulse{
+
+    0%{
+        box-shadow:0 0 0 rgba(124,77,255,0);
+    }
+
+    50%{
+        box-shadow:0 0 18px rgba(124,77,255,.08);
+    }
+
+    100%{
+        box-shadow:0 0 0 rgba(124,77,255,0);
+    }
 }
 
 /* Buttons */
@@ -193,13 +240,43 @@ textarea:focus{
 
     cursor:pointer;
 
-    transition:.25s;
+    position:relative;
 
-    transform:scale(1);
+    overflow:hidden;
+}
+
+.btn::before{
+
+    content:'';
+
+    position:absolute;
+
+    top:0;
+    left:-120%;
+
+    width:100%;
+    height:100%;
+
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.28),
+        transparent
+    );
+
+    transition:.65s;
+}
+
+.btn:hover::before{
+    left:120%;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
 }
 
 .btn:active{
-    transform:scale(.98);
+    transform:scale(.97);
 }
 
 .btn-blue{
@@ -238,8 +315,6 @@ textarea:focus{
     border:1px solid #F0EAFB;
 
     background:rgba(255,255,255,.72);
-
-    transition:.3s;
 }
 
 table{
@@ -278,6 +353,29 @@ tr{
 
 tr:hover{
     background:rgba(124,77,255,.04);
+
+    transform:scale(1.01);
+}
+
+.table-row-animate{
+    animation:rowPop .35s ease;
+}
+
+@keyframes rowPop{
+
+    from{
+        opacity:0;
+        transform:
+        translateY(12px)
+        scale(.98);
+    }
+
+    to{
+        opacity:1;
+        transform:
+        translateY(0)
+        scale(1);
+    }
 }
 
 /* Qty */
@@ -299,14 +397,14 @@ tr:hover{
     background:#FAF7FF;
 
     outline:none;
-
-    transition:.2s;
 }
 
 .inline-qty:focus{
     border-color:var(--primary-color);
 
     box-shadow:0 0 0 4px rgba(124,77,255,.12);
+
+    transform:scale(1.03);
 }
 
 /* Link */
@@ -341,8 +439,6 @@ tr:hover{
     border:none;
 
     cursor:pointer;
-
-    transition:.25s;
 }
 
 .btn-check:hover{
@@ -365,8 +461,6 @@ tr:hover{
     border-radius:22px;
 
     border:1px solid #F0EAFB;
-
-    transition:.3s;
 }
 
 .config-card small{
@@ -393,12 +487,12 @@ tr:hover{
     font-weight:700;
 
     outline:none;
-
-    transition:.2s;
 }
 
 .config-card input:focus{
     border-color:var(--primary-light);
+
+    transform:scale(1.03);
 }
 
 /* Result */
@@ -411,7 +505,20 @@ tr:hover{
 
     padding-top:22px;
 
-    animation:fadeUp .4s ease;
+    animation:resultShow .45s ease;
+}
+
+@keyframes resultShow{
+
+    from{
+        opacity:0;
+        transform:translateY(18px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
 
 .result-area{
@@ -674,6 +781,8 @@ function generateTable(){
 
         const row =
         document.createElement('tr');
+
+        row.classList.add('table-row-animate');
 
         row.innerHTML = `
 
