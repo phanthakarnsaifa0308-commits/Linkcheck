@@ -3,73 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mass Order Helper</title>
+    <title>Saifa Mass Order Helper - Purple Edition</title>
     <style>
-        body { font-family: -apple-system, sans-serif; background-color: #f0f2f5; padding: 15px; margin: 0; }
-        .container { background: #fff; max-width: 500px; margin: 0 auto; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h2 { font-size: 1.2rem; text-align: center; margin-bottom: 20px; }
-        label { font-weight: bold; display: block; margin-bottom: 8px; }
-        textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 12px; box-sizing: border-box; font-size: 14px; margin-bottom: 5px; background: #fff; outline: none; }
-        .hint { font-size: 0.7rem; color: #888; margin-bottom: 15px; }
-        .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-        .btn-blue { background-color: #007bff; color: white; margin-bottom: 20px; }
-        .btn-green { background-color: #28a745; color: white; margin-top: 15px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
-        th { background: #f8f9fa; text-align: left; padding: 10px; border-bottom: 2px solid #eee; }
-        td { padding: 12px 10px; border-bottom: 1px solid #eee; vertical-align: middle; }
-        .service-id { color: #007bff; font-weight: bold; }
-        .link-text { word-break: break-all; display: block; margin-bottom: 5px; color: #444; }
-        .btn-check { background-color: #6c757d; color: white; padding: 6px 12px; border-radius: 6px; font-size: 11px; border: none; cursor: pointer; }
-        .config-area { display: flex; gap: 10px; margin-top: 20px; background: #f8f9fa; padding: 15px; border-radius: 12px; }
-        .config-area div { flex: 1; }
-        .config-area input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; margin-top: 5px; box-sizing: border-box; }
-        #finalResult { margin-top: 15px; display: none; }
+        /* --- โซนตกแต่งเว็บสีม่วง (Purple Theme) --- */
+        :root {
+            --primary-color: #6C5CE7;    /* สีม่วงหลัก */
+            --primary-light: #A29BFE;   /* สีม่วงอ่อน */
+            --secondary-color: #00B894;  /* สีเขียวสำหรับปุ่มสร้าง */
+            --bg-body: #F9F7FD;          /* สีพื้นหลังม่วงจางๆ */
+            --text-dark: #2D3436;
+            --accent-purple: #F3E8FF;    /* สีม่วงไฮไลท์ */
+        }
+
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            background-color: var(--bg-body); 
+            padding: 15px; margin: 0; color: var(--text-dark);
+        }
+
+        .container { 
+            background: #ffffff; 
+            max-width: 500px; 
+            margin: 10px auto; 
+            padding: 25px; 
+            border-radius: 24px; 
+            box-shadow: 0 15px 35px rgba(108, 92, 231, 0.1); 
+        }
+
+        h2 { 
+            text-align: center; 
+            font-size: 1.4rem; 
+            margin-bottom: 25px; 
+            color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .input-group { margin-bottom: 20px; }
+        label { font-weight: 600; display: block; margin-bottom: 8px; font-size: 0.95rem; color: #4834D4; }
+
+        textarea { 
+            width: 100%; padding: 15px; border: 2px solid #EEE9F5; border-radius: 16px; 
+            box-sizing: border-box; font-size: 14px; background: #FCFAFF; 
+            outline: none; transition: 0.3s;
+        }
+        textarea:focus { border-color: var(--primary-light); background: #fff; box-shadow: 0 0 0 4px rgba(162, 155, 254, 0.1); }
+
+        .btn { 
+            width: 100%; padding: 16px; border: none; border-radius: 16px; 
+            font-size: 16px; font-weight: bold; cursor: pointer; 
+            transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .btn:active { transform: scale(0.97); }
+
+        .btn-blue { 
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light)); 
+            color: white; margin-bottom: 25px; 
+        }
+        .btn-blue:hover { box-shadow: 0 6px 15px rgba(108, 92, 231, 0.3); }
+
+        .btn-green { background-color: var(--secondary-color); color: white; margin-top: 20px; }
+        .btn-green:hover { filter: brightness(1.1); }
+
+        /* ตารางแบบใหม่ */
+        .table-container { overflow-x: auto; margin-top: 10px; border-radius: 16px; border: 1px solid #F0EAFB; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 400px; }
+        th { background: #F8F6FD; text-align: left; padding: 12px; border-bottom: 2px solid #F0EAFB; color: #6C5CE7; }
+        td { padding: 15px 12px; border-bottom: 1px solid #F8F6FD; vertical-align: middle; }
+
+        .service-id { color: var(--primary-color); font-weight: bold; }
+        .qty-badge { background: var(--accent-purple); color: var(--primary-color); padding: 4px 10px; border-radius: 8px; font-weight: bold; }
+        .link-text { word-break: break-all; color: #4A5568; display: block; margin-bottom: 8px; font-size: 12px; }
+        
+        .btn-check { 
+            background-color: #FFF; color: var(--primary-color); padding: 7px 14px; 
+            border-radius: 10px; font-size: 11px; border: 1.5px solid var(--primary-light); cursor: pointer;
+            font-weight: 600; transition: 0.2s;
+        }
+        .btn-check:hover { background-color: var(--primary-color); color: white; }
+
+        .config-card { 
+            display: flex; gap: 12px; margin-top: 25px; background: #FDFBFF; 
+            padding: 18px; border-radius: 20px; border: 1px solid #F0EAFB;
+        }
+        .config-card div { flex: 1; }
+        .config-card input { 
+            width: 100%; padding: 10px; border: 1.5px solid #EEE9F5; 
+            border-radius: 12px; margin-top: 6px; box-sizing: border-box; text-align: center;
+            color: var(--primary-color); font-weight: bold;
+        }
+        .config-card input:focus { border-color: var(--primary-light); outline: none; }
+
+        #finalResult { margin-top: 25px; display: none; border-top: 2px dashed #EEE9F5; padding-top: 20px; }
+        
+        /* สไตล์หน้าต่างผลลัพธ์ */
+        .result-area {
+            background: #FAFAFF !important;
+            border: 2px solid #E0D7FF !important;
+            color: #4834D4 !important;
+            font-family: monospace;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>🚀 ระบบเตรียม Mass Order</h2>
+    <h2>Mass order by Ptk Saifa🌟</h2>
     
-    <label>1. วางลิงก์ TikTok</label>
-    <textarea id="inputLinks" rows="8" placeholder="กดจิ้มจากคีย์บอร์ดได้เลย..."></textarea>
-    <div class="hint">* ระบบจะแยกบรรทัดให้เองเมื่อเจอ https://</div>
-
-    <button class="btn btn-blue" onclick="generateTable()">➕ นำลิงก์ใส่ตาราง</button>
-
-    <table id="linkTable">
-        <thead>
-            <tr>
-                <th style="width: 20%;">ไอดี</th>
-                <th>ลิงก์ / เช็คคลิป</th>
-            </tr>
-        </thead>
-        <tbody id="tableBody"></tbody>
-    </table>
-
-    <div class="config-area">
-        <div><small>ไอดีบริการ</small><input type="text" id="serviceId" value="4525"></div>
-        <div><small>จำนวน</small><input type="number" id="quantity" value="1000"></div>
+    <div class="input-group">
+        <label>🔮 วางลิงก์ที่ต้องการเช็ค</label>
+        <textarea id="inputLinks" rows="6" placeholder="กดวางลิงก์ได้เลย ระบบจะเว้นบรรทัดให้อัตโนมัติ..."></textarea>
     </div>
 
-    <button class="btn btn-green" onclick="generateMassOrder()">🪄 สร้างข้อมูล Mass Order</button>
+    <button class="btn btn-blue" onclick="generateTable()">✨ แสดงรายการในตาราง</button>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 15%;">ไอดี</th>
+                    <th style="width: 15%;">จำนวน</th>
+                    <th>รายละเอียดคลิป</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+
+    <div class="config-card">
+        <div><small>🆔 ไอดีบริการ</small><input type="text" id="serviceId" value="4525"></div>
+        <div><small>📊 จำนวนที่จะสั่ง</small><input type="number" id="quantity" value="1000"></div>
+    </div>
+
+    <button class="btn btn-green" onclick="generateMassOrder()">🪄 สร้างโค้ด Mass Order</button>
 
     <div id="finalResult">
-        <label>คัดลอกไปวางในเว็บ:</label>
-        <textarea id="outputArea" rows="6" readonly></textarea>
-        <button class="btn btn-blue" onclick="copyToClipboard()">📋 คัดลอกทั้งหมด</button>
+        <label>✅ คัดลอกไปวางในเว็บได้เลย:</label>
+        <textarea id="outputArea" rows="6" readonly class="result-area"></textarea>
+        <button class="btn btn-blue" style="margin-top:12px;" onclick="copyToClipboard()">📋 คัดลอกทั้งหมด</button>
     </div>
 </div>
 
 <script>
     const inputArea = document.getElementById('inputLinks');
 
-    // แก้ไขใหม่: เช็คทุกลมหายใจ ถ้าเจอลิงก์ติดกันให้แยกบรรทัดทันที
     inputArea.addEventListener('input', () => {
         let content = inputArea.value;
-        // ค้นหาตำแหน่งที่ https โผล่มาโดยไม่มีบรรทัดใหม่ข้างหน้า แล้วเติม \n เข้าไป
         let fixedContent = content.replace(/([^\n])(https:\/\/)/g, '$1\n$2');
-        
         if (content !== fixedContent) {
             inputArea.value = fixedContent;
             inputArea.scrollTop = inputArea.scrollHeight;
@@ -80,16 +162,20 @@
         const text = inputArea.value;
         const links = text.split('\n').map(l => l.trim()).filter(l => l !== '');
         const sid = document.getElementById('serviceId').value;
+        const qty = document.getElementById('quantity').value;
         const tbody = document.getElementById('tableBody');
-        tbody.innerHTML = '';
         
+        tbody.innerHTML = '';
+        if (links.length === 0) return;
+
         links.forEach(link => {
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td class="service-id">${sid}</td>
+                <td><span class="qty-badge">${qty}</span></td>
                 <td>
                     <span class="link-text">${link}</span>
-                    <button class="btn-check" onclick="window.open('${link}', '_blank'); this.style.backgroundColor='#333'; this.innerText='✔️ เช็คแล้ว';">
+                    <button class="btn-check" onclick="window.open('${link}', '_blank'); this.style.background='#6C5CE7'; this.style.color='#fff'; this.innerText='✔️ เช็คแล้ว';">
                         👁️ เปิดเช็คคลิป
                     </button>
                 </td>
@@ -103,17 +189,20 @@
         const links = text.split('\n').map(l => l.trim()).filter(l => l !== '');
         const sid = document.getElementById('serviceId').value;
         const qty = document.getElementById('quantity').value;
-        if (links.length === 0) return alert('กรุณาวางลิงก์ก่อนครับ');
+        
+        if (links.length === 0) return alert('ใส่ลิงก์ก่อนนะ!');
+        
         const result = links.map(l => `${sid}|${l}|${qty}`).join('\n');
         document.getElementById('outputArea').value = result;
         document.getElementById('finalResult').style.display = 'block';
+        document.getElementById('finalResult').scrollIntoView({ behavior: 'smooth' });
     }
 
     function copyToClipboard() {
         const output = document.getElementById('outputArea');
         output.select();
         navigator.clipboard.writeText(output.value);
-        alert('คัดลอกแล้ว!');
+        alert('คัดลอกเรียบร้อย♻️');
     }
 </script>
 </body>
