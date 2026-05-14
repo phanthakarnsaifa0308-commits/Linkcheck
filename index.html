@@ -1,147 +1,802 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Saifa Mass Order Helper - Purple Edition</title>
-    <style>
-        :root {
-            --primary-color: #6C5CE7;
-            --primary-light: #A29BFE;
-            --secondary-color: #00B894;
-            --bg-body: #F9F7FD;
-            --text-dark: #2D3436;
-            --accent-purple: #F3E8FF;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-        body { font-family: -apple-system, sans-serif; background-color: var(--bg-body); padding: 15px; margin: 0; }
-        .container { background: #ffffff; max-width: 500px; margin: 10px auto; padding: 25px; border-radius: 24px; box-shadow: 0 15px 35px rgba(108, 92, 231, 0.1); }
-        h2 { text-align: center; font-size: 1.4rem; margin-bottom: 25px; color: var(--primary-color); }
+<title>Saifa Mass Order Helper</title>
 
-        textarea { width: 100%; padding: 15px; border: 2px solid #EEE9F5; border-radius: 16px; box-sizing: border-box; font-size: 14px; outline: none; }
-        
-        .btn { width: 100%; padding: 16px; border: none; border-radius: 16px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn-blue { background: linear-gradient(135deg, var(--primary-color), var(--primary-light)); color: white; margin-bottom: 20px; }
-        .btn-green { background-color: var(--secondary-color); color: white; margin-top: 20px; }
+<style>
 
-        .table-container { overflow-x: auto; margin-top: 10px; border-radius: 16px; border: 1px solid #F0EAFB; }
-        table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 350px; }
-        th { background: #F8F6FD; text-align: left; padding: 12px; color: #6C5CE7; }
-        td { padding: 15px 12px; border-bottom: 1px solid #F8F6FD; vertical-align: middle; }
+:root{
+    --primary-color:#7C4DFF;
+    --primary-light:#B388FF;
+    --secondary-color:#00D2A0;
+}
 
-        /* สไตล์ช่องแก้จำนวนในตาราง */
-        .inline-qty {
-            width: 70px;
-            padding: 8px 5px;
-            border: 1.5px solid var(--primary-light);
-            border-radius: 8px;
-            text-align: center;
-            font-weight: bold;
-            color: var(--primary-color);
-            background: var(--accent-purple);
-            outline: none;
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
 
-        .link-text { word-break: break-all; color: #4A5568; display: block; font-size: 12px; margin-bottom: 5px; }
-        .btn-check { background-color: #FFF; color: var(--primary-color); padding: 7px 14px; border-radius: 10px; font-size: 11px; border: 1.5px solid var(--primary-light); cursor: pointer; margin-top: 8px; }
+body{
+    font-family:-apple-system,BlinkMacSystemFont,sans-serif;
 
-        .config-card { display: flex; gap: 12px; margin-top: 25px; background: #FDFBFF; padding: 18px; border-radius: 20px; border: 1px solid #F0EAFB; }
-        .config-card input { width: 100%; padding: 10px; border: 1.5px solid #EEE9F5; border-radius: 12px; text-align: center; font-weight: bold; outline: none; }
+    background:linear-gradient(180deg,#F4F0FF,#FCFBFF);
 
-        #finalResult { margin-top: 25px; display: none; border-top: 2px dashed #EEE9F5; padding-top: 20px; }
-        .result-area { background: #FAFAFF !important; border: 2px solid #E0D7FF !important; color: #4834D4 !important; font-weight: 600; width: 100%; box-sizing: border-box; }
-    </style>
+    min-height:100vh;
+
+    padding:15px;
+
+    overflow-x:hidden;
+
+    transition:.3s;
+}
+
+/* Glow */
+.bg-glow{
+    position:fixed;
+
+    top:-180px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:420px;
+    height:420px;
+
+    background:#A855F7;
+
+    filter:blur(120px);
+
+    opacity:.18;
+
+    z-index:-1;
+}
+
+/* Container */
+.container{
+    background:rgba(255,255,255,.78);
+
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    max-width:500px;
+
+    margin:10px auto;
+
+    padding:24px;
+
+    border-radius:28px;
+
+    border:1px solid rgba(255,255,255,.6);
+
+    box-shadow:
+    0 10px 40px rgba(124,77,255,.12),
+    0 0 0 1px rgba(255,255,255,.4);
+
+    animation:fadeUp .45s ease;
+
+    transition:.3s;
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* Title */
+h2{
+    text-align:center;
+
+    font-size:1.55rem;
+
+    margin-bottom:14px;
+
+    color:var(--primary-color);
+
+    font-weight:800;
+
+    letter-spacing:-.5px;
+}
+
+/* Theme Toggle */
+.theme-toggle{
+    display:flex;
+    justify-content:center;
+
+    margin-bottom:20px;
+}
+
+.theme-toggle button{
+    border:none;
+
+    background:rgba(124,77,255,.12);
+
+    color:#6C4DFF;
+
+    padding:10px 16px;
+
+    border-radius:14px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.theme-toggle button:hover{
+    background:#7C4DFF;
+    color:white;
+}
+
+/* Labels */
+.main-label{
+    font-weight:700;
+
+    color:#5B3FD1;
+
+    display:block;
+
+    margin-bottom:10px;
+}
+
+/* Textarea */
+textarea{
+    width:100%;
+
+    padding:16px;
+
+    border:2px solid #EEE9F5;
+
+    border-radius:18px;
+
+    font-size:14px;
+
+    outline:none;
+
+    resize:none;
+
+    background:rgba(255,255,255,.8);
+
+    transition:.25s;
+}
+
+textarea:focus{
+    border-color:var(--primary-light);
+
+    box-shadow:0 0 0 5px rgba(124,77,255,.1);
+}
+
+/* Buttons */
+.btn{
+    width:100%;
+
+    padding:16px;
+
+    border:none;
+
+    border-radius:18px;
+
+    font-size:15px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    transform:scale(1);
+}
+
+.btn:active{
+    transform:scale(.98);
+}
+
+.btn-blue{
+    margin-top:15px;
+    margin-bottom:18px;
+
+    color:white;
+
+    background:linear-gradient(135deg,#7C4DFF,#B388FF);
+
+    box-shadow:0 10px 25px rgba(124,77,255,.28);
+}
+
+.btn-blue:hover{
+    filter:brightness(1.05);
+}
+
+.btn-green{
+    margin-top:22px;
+
+    color:white;
+
+    background:linear-gradient(135deg,#00C896,#00E0B0);
+
+    box-shadow:0 10px 25px rgba(0,200,150,.25);
+}
+
+/* Table */
+.table-container{
+    overflow-x:auto;
+
+    margin-top:15px;
+
+    border-radius:22px;
+
+    border:1px solid #F0EAFB;
+
+    background:rgba(255,255,255,.72);
+
+    transition:.3s;
+}
+
+table{
+    width:100%;
+
+    border-collapse:collapse;
+
+    font-size:13px;
+
+    min-width:350px;
+}
+
+th{
+    background:rgba(124,77,255,.08);
+
+    text-align:left;
+
+    padding:14px;
+
+    color:#7C4DFF;
+
+    font-weight:700;
+}
+
+td{
+    padding:15px 12px;
+
+    border-bottom:1px solid #F8F6FD;
+
+    vertical-align:middle;
+}
+
+tr{
+    transition:.2s;
+}
+
+tr:hover{
+    background:rgba(124,77,255,.04);
+}
+
+/* Qty */
+.inline-qty{
+    width:75px;
+
+    padding:10px 6px;
+
+    border:2px solid rgba(124,77,255,.18);
+
+    border-radius:12px;
+
+    text-align:center;
+
+    font-weight:700;
+
+    color:var(--primary-color);
+
+    background:#FAF7FF;
+
+    outline:none;
+
+    transition:.2s;
+}
+
+.inline-qty:focus{
+    border-color:var(--primary-color);
+
+    box-shadow:0 0 0 4px rgba(124,77,255,.12);
+}
+
+/* Link */
+.link-text{
+    word-break:break-all;
+
+    color:#4A5568;
+
+    display:block;
+
+    font-size:12px;
+
+    margin-bottom:6px;
+
+    line-height:1.5;
+}
+
+/* Check Button */
+.btn-check{
+    background:rgba(124,77,255,.08);
+
+    color:var(--primary-color);
+
+    padding:8px 14px;
+
+    border-radius:12px;
+
+    font-size:11px;
+
+    font-weight:700;
+
+    border:none;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.btn-check:hover{
+    background:var(--primary-color);
+    color:#fff;
+}
+
+/* Config */
+.config-card{
+    display:flex;
+
+    gap:12px;
+
+    margin-top:25px;
+
+    background:rgba(255,255,255,.75);
+
+    padding:18px;
+
+    border-radius:22px;
+
+    border:1px solid #F0EAFB;
+
+    transition:.3s;
+}
+
+.config-card small{
+    color:#7C4DFF;
+
+    font-weight:700;
+
+    display:block;
+
+    margin-bottom:6px;
+}
+
+.config-card input{
+    width:100%;
+
+    padding:12px;
+
+    border:2px solid #EEE9F5;
+
+    border-radius:14px;
+
+    text-align:center;
+
+    font-weight:700;
+
+    outline:none;
+
+    transition:.2s;
+}
+
+.config-card input:focus{
+    border-color:var(--primary-light);
+}
+
+/* Result */
+#finalResult{
+    margin-top:28px;
+
+    display:none;
+
+    border-top:2px dashed #E4D9FF;
+
+    padding-top:22px;
+
+    animation:fadeUp .4s ease;
+}
+
+.result-area{
+    background:#FAFAFF !important;
+
+    border:2px solid #DCCFFF !important;
+
+    color:#4834D4 !important;
+
+    font-weight:700;
+
+    width:100%;
+}
+
+/* DARK MODE */
+body.dark{
+    background:linear-gradient(180deg,#0F0F14,#171720);
+}
+
+body.dark .container{
+    background:rgba(25,25,35,.82);
+
+    border:1px solid rgba(255,255,255,.05);
+
+    box-shadow:
+    0 10px 40px rgba(0,0,0,.35);
+}
+
+body.dark h2,
+body.dark .main-label,
+body.dark .config-card small{
+    color:#C7B8FF;
+}
+
+body.dark textarea,
+body.dark .config-card input,
+body.dark .inline-qty{
+    background:#1E1E2B;
+
+    border-color:#34344A;
+
+    color:#fff;
+}
+
+body.dark .table-container{
+    background:#181824;
+
+    border-color:#2B2B3A;
+}
+
+body.dark th{
+    background:#202032;
+
+    color:#C7B8FF;
+}
+
+body.dark td{
+    border-color:#2A2A3A;
+
+    color:#EAEAEA;
+}
+
+body.dark tr:hover{
+    background:rgba(255,255,255,.03);
+}
+
+body.dark .link-text{
+    color:#CFCFEA;
+}
+
+body.dark .config-card{
+    background:#181824;
+
+    border-color:#2A2A3A;
+}
+
+body.dark .result-area{
+    background:#181824 !important;
+
+    color:#C7B8FF !important;
+
+    border-color:#34344A !important;
+}
+
+body.dark .btn-check{
+    background:#2A2A3A;
+
+    color:#C7B8FF;
+}
+
+body.dark .btn-check:hover{
+    background:#7C4DFF;
+    color:white;
+}
+
+/* Selection */
+::selection{
+    background:#B388FF;
+    color:white;
+}
+
+/* Mobile */
+@media(max-width:480px){
+
+    .container{
+        padding:18px;
+        border-radius:24px;
+    }
+
+    h2{
+        font-size:1.35rem;
+    }
+
+    .btn{
+        font-size:14px;
+    }
+}
+
+</style>
 </head>
+
 <body>
 
-<div class="container">
-    <h2>Mass order by Ptk Saifa🌟</h2>
-    
-    <label style="font-weight:600; color:#4834D4;">🔮 วางลิงก์ที่นี่</label>
-    <textarea id="inputLinks" rows="5" placeholder="วางลิงก์ได้เลยระบบจะเว้นบรรทัดให้อัตโนมัติ..."></textarea>
+<div class="bg-glow"></div>
 
-    <button class="btn btn-blue" onclick="generateTable()" style="margin-top:15px;">✨ สร้างรายการ Mass order</button>
+<div class="container">
+
+    <h2>Mass order by Ptk Saifa ✨</h2>
+
+    <div class="theme-toggle">
+        <button onclick="toggleTheme()" id="themeBtn">
+            🌙 Dark Mode
+        </button>
+    </div>
+
+    <label class="main-label">
+        🔮 วางลิงก์ที่นี่
+    </label>
+
+    <textarea
+        id="inputLinks"
+        rows="5"
+        placeholder="วางลิงก์ได้เลย ระบบจะเว้นบรรทัดให้อัตโนมัติ..."
+    ></textarea>
+
+    <button class="btn btn-blue" onclick="generateTable()">
+        ✨ สร้างรายการ Mass order
+    </button>
 
     <div class="table-container">
+
         <table>
+
             <thead>
                 <tr>
-                    <th style="width: 15%;">ไอดี</th>
+                    <th style="width:15%;">ไอดี</th>
                     <th>ลิงก์ / เช็คคลิป</th>
-                    <th style="width: 25%; text-align: center;">จำนวน (แก้ไขได้)</th>
+                    <th style="width:25%; text-align:center;">
+                        จำนวน
+                    </th>
                 </tr>
             </thead>
+
             <tbody id="tableBody"></tbody>
+
         </table>
+
     </div>
 
     <div class="config-card">
-        <div><small>🆔 ไอดีบริการ</small><input type="text" id="serviceId" value="4525"></div>
-        <div><small>📊 จำนวนเริ่มต้น</small><input type="number" id="quantity" placeholder="ระบุจำนวน"></div>
+
+        <div>
+            <small>🆔 ไอดีบริการ</small>
+
+            <input
+                type="text"
+                id="serviceId"
+                value="4525"
+            >
+        </div>
+
+        <div>
+            <small>📊 จำนวนเริ่มต้น</small>
+
+            <input
+                type="number"
+                id="quantity"
+                placeholder="ระบุจำนวน"
+            >
+        </div>
+
     </div>
 
-    <button class="btn btn-green" onclick="generateMassOrder()">🪄 สร้าง Mass Order เลย!! </button>
+    <button class="btn btn-green" onclick="generateMassOrder()">
+        🪄 สร้าง Mass Order เลย!!
+    </button>
 
     <div id="finalResult">
-        <label>✅ รายการ Mass order:</label>
-        <textarea id="outputArea" rows="6" readonly class="result-area"></textarea>
-        <button class="btn btn-blue" style="margin-top:12px;" onclick="copyToClipboard()">📋 คัดลอกทั้งหมด</button>
+
+        <label class="main-label">
+            ✅ รายการ Mass order:
+        </label>
+
+        <textarea
+            id="outputArea"
+            rows="6"
+            readonly
+            class="result-area"
+        ></textarea>
+
+        <button
+            class="btn btn-blue"
+            style="margin-top:12px;"
+            onclick="copyToClipboard()"
+        >
+            📋 คัดลอกทั้งหมด
+        </button>
+
     </div>
+
 </div>
 
 <script>
-    const inputArea = document.getElementById('inputLinks');
 
-    inputArea.addEventListener('input', () => {
-        let content = inputArea.value;
-        let fixedContent = content.replace(/([^\n])(https:\/\/)/g, '$1\n$2');
-        if (content !== fixedContent) { inputArea.value = fixedContent; }
+const inputArea =
+document.getElementById('inputLinks');
+
+inputArea.addEventListener('input',()=>{
+
+    let content = inputArea.value;
+
+    let fixedContent =
+    content.replace(/([^\n])(https:\/\/)/g,'$1\n$2');
+
+    if(content !== fixedContent){
+
+        inputArea.value = fixedContent;
+    }
+});
+
+function generateTable(){
+
+    const links = inputArea.value
+    .split('\n')
+    .map(l => l.trim())
+    .filter(l => l !== '');
+
+    const sid =
+    document.getElementById('serviceId').value;
+
+    const qty =
+    document.getElementById('quantity').value;
+
+    const tbody =
+    document.getElementById('tableBody');
+
+    tbody.innerHTML = '';
+
+    links.forEach((link,index)=>{
+
+        const row =
+        document.createElement('tr');
+
+        row.innerHTML = `
+
+            <td style="font-weight:bold; color:#7C4DFF;">
+                ${sid}
+            </td>
+
+            <td>
+
+                <span class="link-text">
+                    ${link}
+                </span>
+
+                <button
+                    class="btn-check"
+                    onclick="window.open('${link}','_blank'); this.style.background='#7C4DFF'; this.style.color='#fff';"
+                >
+                    👁️ เช็คคลิป
+                </button>
+
+            </td>
+
+            <td style="text-align:center;">
+
+                <input
+                    type="number"
+                    class="inline-qty"
+                    value="${qty}"
+                    id="qty_${index}"
+                >
+
+            </td>
+        `;
+
+        tbody.appendChild(row);
     });
+}
 
-    function generateTable() {
-        const links = inputArea.value.split('\n').map(l => l.trim()).filter(l => l !== '');
-        const sid = document.getElementById('serviceId').value;
-        const qty = document.getElementById('quantity').value;
-        const tbody = document.getElementById('tableBody');
-        
-        tbody.innerHTML = '';
-        links.forEach((link, index) => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td style="font-weight:bold; color:#6C5CE7;">${sid}</td>
-                <td>
-                    <span class="link-text">${link}</span>
-                    <button class="btn-check" onclick="window.open('${link}', '_blank'); this.style.background='#6C5CE7'; this.style.color='#fff';">👁️ เช็คคลิป</button>
-                </td>
-                <td style="text-align: center;">
-                    <input type="number" class="inline-qty" value="${qty}" id="qty_${index}">
-                </td>
-            `;
-            tbody.appendChild(row);
-        });
+function generateMassOrder(){
+
+    const links = inputArea.value
+    .split('\n')
+    .map(l => l.trim())
+    .filter(l => l !== '');
+
+    const sid =
+    document.getElementById('serviceId').value;
+
+    if(links.length === 0)
+    return alert('ใส่ลิงก์ก่อนนะ!');
+
+    const result = links.map((l,i)=>{
+
+        const currentQty =
+        document.getElementById(`qty_${i}`).value;
+
+        return `${sid}|${l}|${currentQty}`;
+
+    }).join('\n');
+
+    document.getElementById('outputArea').value =
+    result;
+
+    document.getElementById('finalResult').style.display =
+    'block';
+
+    document
+    .getElementById('finalResult')
+    .scrollIntoView({
+        behavior:'smooth'
+    });
+}
+
+function copyToClipboard(){
+
+    const output =
+    document.getElementById('outputArea');
+
+    output.select();
+
+    navigator.clipboard.writeText(output.value);
+
+    alert('คัดลอกเรียบร้อย 💜');
+}
+
+/* Dark Mode */
+function toggleTheme(){
+
+    document.body.classList.toggle('dark');
+
+    const btn =
+    document.getElementById('themeBtn');
+
+    if(document.body.classList.contains('dark')){
+
+        btn.innerHTML = '☀️ Light Mode';
+
+        localStorage.setItem('theme','dark');
+
+    }else{
+
+        btn.innerHTML = '🌙 Dark Mode';
+
+        localStorage.setItem('theme','light');
     }
+}
 
-    function generateMassOrder() {
-        const links = inputArea.value.split('\n').map(l => l.trim()).filter(l => l !== '');
-        const sid = document.getElementById('serviceId').value;
-        if (links.length === 0) return alert('ใส่ลิงก์ก่อนนะ!');
+/* Load Theme */
+window.addEventListener('load',()=>{
 
-        const result = links.map((l, i) => {
-            const currentQty = document.getElementById(`qty_${i}`).value;
-            return `${sid}|${l}|${currentQty}`;
-        }).join('\n');
+    const savedTheme =
+    localStorage.getItem('theme');
 
-        document.getElementById('outputArea').value = result;
-        document.getElementById('finalResult').style.display = 'block';
-        document.getElementById('finalResult').scrollIntoView({ behavior: 'smooth' });
+    if(savedTheme === 'dark'){
+
+        document.body.classList.add('dark');
+
+        document.getElementById('themeBtn')
+        .innerHTML = '☀️ Light Mode';
     }
+});
 
-    function copyToClipboard() {
-        const output = document.getElementById('outputArea');
-        output.select();
-        navigator.clipboard.writeText(output.value);
-        alert('คัดลอกเรียบร้อย 💜');
-    }
 </script>
+
 </body>
 </html>
